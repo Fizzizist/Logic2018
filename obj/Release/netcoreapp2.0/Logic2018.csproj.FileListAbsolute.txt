@@ -1,0 +1,10 @@
+/home/fizzizist/Documents/projects/Logic2018/bin/Release/netcoreapp2.0/Logic2018.deps.json
+/home/fizzizist/Documents/projects/Logic2018/bin/Release/netcoreapp2.0/Logic2018.runtimeconfig.json
+/home/fizzizist/Documents/projects/Logic2018/bin/Release/netcoreapp2.0/Logic2018.runtimeconfig.dev.json
+/home/fizzizist/Documents/projects/Logic2018/bin/Release/netcoreapp2.0/Logic2018.dll
+/home/fizzizist/Documents/projects/Logic2018/bin/Release/netcoreapp2.0/Logic2018.pdb
+/home/fizzizist/Documents/projects/Logic2018/obj/Release/netcoreapp2.0/Logic2018.csproj.CoreCompileInputs.cache
+/home/fizzizist/Documents/projects/Logic2018/obj/Release/netcoreapp2.0/Logic2018.AssemblyInfoInputs.cache
+/home/fizzizist/Documents/projects/Logic2018/obj/Release/netcoreapp2.0/Logic2018.AssemblyInfo.cs
+/home/fizzizist/Documents/projects/Logic2018/obj/Release/netcoreapp2.0/Logic2018.dll
+/home/fizzizist/Documents/projects/Logic2018/obj/Release/netcoreapp2.0/Logic2018.pdb

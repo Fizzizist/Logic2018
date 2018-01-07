@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="EmptyInterface.cs" />
+    <Compile Remove="Inventory.cs" />
+    <Compile Remove="SaveData.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+  </ItemGroup>
+</Project>

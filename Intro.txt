@@ -1,0 +1,6 @@
+Welcome to Logic2018 alpha version 0.0.2!
+This is meant as a formal logic derivation simulator.
+The User invokes logical rules such as Modus Ponens to arguments in order to
+proved their validity.
+Type 'help' for info on rules and controls for this program. Otherwise derive
+away and have fun. Type 'exit' to exit.
