@@ -19,7 +19,8 @@ namespace Logic2018
             atomic = atomicInput;
         }
 
-        //Conditional, biconditional, and, and or constructor.
+        //Conditional, biconditional, AND, and OR constructor.
+        //1: Conditional, 2:Biconditional, 3:AND, 4:OR
         public Premise(int typeInput, Premise a, Premise b)
         {
             type = typeInput;

@@ -1,242 +1,210 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 namespace Logic2018
 {
-    public enum AtomicsEnum { P, Q, R, S, T, U, V, W, X, Y, Z };
     public class ProblemConstructor
     {
-        private List<Premise> atomics = new List<Premise>();
-        private List<Premise> premises = new List<Premise>();
-        private Premise conclusion;
-        private string[] atomicsArray = { "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
         public Argument argument;
+
         public ProblemConstructor(int choice)
         {
-            switch (choice)
-            {
-                //P->Q. P C:Q.
-                case 0:
-                    this.MakeAtomics(2);
-                    premises.Add(new Premise(1, atomics[0], atomics[1]));
-                    premises.Add(atomics[0]);
+            var charChoice = Convert.ToChar(choice);
+			using (StreamReader sr = new StreamReader("ArgumentConstructor.list"))
+			{
+				string line;
+				var counter = 0;
 
-                    conclusion = atomics[1];
+				while ((line = sr.ReadLine()) != null)
+				{
+                    var lineInt = Convert.ToInt32(line.Substring(0,1));
+                    if (choice<10&&(lineInt==choice))
+                    {
+                        argument = MakeCustomArgument(line.Substring(2));
+                        //Console.WriteLine(line);
+                        goto Done;
+                    }
+                    //Console.WriteLine(lineInt + " " + choice);
+					counter++;
+				}
+            Done:;
 
-                    argument = new Argument(premises, conclusion);
-                    break;
+			}
 
-				//P->R R->Q ∴P->Q
-				case 1:
-                    this.MakeAtomics(3);
-                    premises.Add(new Premise(1, atomics[(int)AtomicsEnum.P], atomics[(int)AtomicsEnum.R]));
-                    premises.Add(new Premise(1, atomics[(int)AtomicsEnum.R], atomics[(int)AtomicsEnum.Q]));
-                    conclusion = new Premise(1, atomics[(int)AtomicsEnum.P], atomics[(int)AtomicsEnum.Q]);
-                    argument = new Argument(premises, conclusion);
-                    break;
-
-				//~P. Q->P ∴~Q
-                case 2:
-                    this.MakeAtomics(2);
-                    premises.Add(new Premise(atomics[(int)AtomicsEnum.P]));
-                    premises.Add(new Premise(1, atomics[(int)AtomicsEnum.Q], atomics[(int)AtomicsEnum.P]));
-                    conclusion = new Premise(atomics[(int)AtomicsEnum.Q]);
-                    argument = new Argument(premises, conclusion);
-                    break;
-
-				//~~(P->Q). P ∴ Q
-                case 3:
-                    this.MakeAtomics(2);
-                    Premise PR1Conditional = new Premise(1, atomics[(int)AtomicsEnum.P], atomics[(int)AtomicsEnum.Q]);
-                    Premise PR1FirstNegation = new Premise(PR1Conditional);
-                    premises.Add(new Premise(PR1FirstNegation));
-                    premises.Add(atomics[(int)AtomicsEnum.P]);
-                    conclusion = atomics[(int)AtomicsEnum.Q];
-                    argument = new Argument(premises, conclusion);
-                    break;
-
-				//P. R->~Q. P->Q ∴ ~R
-                case 4:
-                    this.MakeAtomics(3);
-                    premises.Add(atomics[(int)AtomicsEnum.P]);
-                    Premise PR2Negation = new Premise(atomics[(int)AtomicsEnum.Q]);
-                    premises.Add(new Premise(1, atomics[(int)AtomicsEnum.R], PR2Negation));
-                    premises.Add(new Premise(1, atomics[(int)AtomicsEnum.P], atomics[(int)AtomicsEnum.Q]));
-                    conclusion = new Premise(atomics[(int)AtomicsEnum.R]);
-                    argument = new Argument(premises, conclusion);
-                    break;
-
-				//P→(Q→R). (Q→R)→S. ~S ∴ ~P
-                case 5:
-                    this.MakeAtomics(4);
-                    Premise PR1Conditional_5 = new Premise(1, atomics[(int)AtomicsEnum.Q], atomics[(int)AtomicsEnum.R]);
-                    premises.Add(new Premise(1, atomics[(int)AtomicsEnum.P], PR1Conditional_5));
-                    premises.Add(new Premise(1, PR1Conditional_5, atomics[(int)AtomicsEnum.S]));
-                    premises.Add(new Premise(atomics[(int)AtomicsEnum.S]));
-                    conclusion = new Premise(atomics[(int)AtomicsEnum.P]);
-                    argument = new Argument(premises, conclusion);
-                    break;
-				default:
-                    Console.WriteLine("That argument doesn't exist.");
-                    break;
-            }
         }
 
-        public void MakeAtomics(int amount)
-        {
-            for (var i = 0; i < amount; i++)
-            {
-                atomics.Add(new Premise(atomicsArray[i]));
-            }
-        }
-
-        public Premise MakeCustom(string inputString)
-        {
+        //Parses the input string and makes nested Premises out of string.
+		public Premise MakeCustom(string inputString)
+		{
+			var objectString = new List<string>();
+			var count = 0;
+			var unbracketed = "";
             Premise newPremise;
+			if (inputString.Length == 1)
+			{
+                newPremise = new Premise(inputString);
+                return newPremise;
+			}
+			else
+			{
+				if (inputString.Contains("("))
+				{
+					var _object = "";
 
-            //Base case.
-            if (inputString.Length == 1)
-            {
-                var isAtomic = false;
-                for (var i = 0; i < atomicsArray.Length; i++)
+					for (var i = 0; i < inputString.Length; i++)
+					{
+						if (inputString[i] == ')' && count == 1)
+						{
+							objectString.Add(_object);
+							_object = "";
+							count--;
+							unbracketed += inputString[i];
+						}
+						else if (count > 0 && inputString[i] == ')')
+						{
+							count--;
+							_object += inputString[i];
+						}
+						else if (inputString[i] == '(' && count == 0)
+						{
+							unbracketed += inputString[i];
+							count++;
+						}
+						else if (count > 0 && inputString[i] == '(')
+						{
+							count++;
+							_object += inputString[i];
+						}
+						else if (count > 0)
+						{
+							_object += inputString[i];
+						}
+						else if (count == 0)
+						{
+							if (inputString[i] != '(' && inputString[i] != ')' && inputString[i] != '~' && inputString[i] != '-' && inputString[i] != '>' && inputString[i] != '<' && inputString[i] != '^' && inputString[i] != 'v')
+							{
+								objectString.Add(inputString[i].ToString());
+							}
+							else
+							{
+								unbracketed += inputString[i];
+							}
+						}
+					}
+				}
+				else
+				{
+					for (var i = 0; i < inputString.Length; i++)
+					{
+						if (inputString[i] != '(' && inputString[i] != ')' && inputString[i] != '~' && inputString[i] != '-' && inputString[i] != '>' && inputString[i] != '<' && inputString[i] != '^' && inputString[i] != 'v')
+						{
+							objectString.Add(inputString[i].ToString());
+						}
+						else
+						{
+							unbracketed += inputString[i];
+						}
+					}
+				}
+			}
+
+            //Testing.
+			/*for (var i = 0; i < objectString.Count; i++)
+			{
+				Console.WriteLine(objectString[i]);
+			}
+			Console.WriteLine(unbracketed);*/
+
+
+			//Deal with basic negation cases
+			if (objectString.Count == 1 && unbracketed.Contains("~"))
+			{
+				if (unbracketed.Contains("(") || unbracketed.Length == 1) 
                 {
-                    if (inputString == atomicsArray[i]) isAtomic = true;
-                }
-                if (isAtomic == true)
-                {
-                    newPremise = new Premise(inputString);
+                    var negatedPremise = MakeCustom(objectString[0]);
+                    newPremise = new Premise(negatedPremise);
                     return newPremise;
                 }
-                else
-                {
-                    Console.WriteLine("One of your atomics is not valid.");
-                    return null;
-                }
-            }
-            else
-            {
-                //e.g. ~(P->(R->Q))^(S->R)
-                var unbracketed = "";
-                var objectString = new List<string>();
-                //If it contains brackets make object strings to pass back into method.
-                if (inputString.Contains("("))
-                {
-                    var firstBracket = 0;
-                    var counter = 0;
-                    var firstClosingBracket = 0;
-                    var premiseString = "";
-                    for (var i = 0; i < inputString.Length; i++)
-                    {
-                        if (inputString[i] == '(' && counter == 0)
-                        {
-                            firstBracket = i;
-                            unbracketed += inputString[i];
-                            counter++;
-                        }
-                        else if (inputString[i] == '(' && counter > 0)
-                        {
-                            counter++;
-                        }
-                        else if (inputString[i] != '(' && counter == 0)
-                        {
-                            unbracketed += inputString[i];
-                        }
+			}
 
-                        if (inputString[i] == ')' && counter == 1)
-                        {
-                            firstClosingBracket = i;
-                            objectString.Add(premiseString);
-                            premiseString = "";
-                            unbracketed += inputString[i];
-                            counter--;
-                        }
-                        else if (inputString[i] == ')' && counter > 1)
-                        {
-                            counter--;
-                        }
-                        if (counter > 0 && i != firstBracket)
-                        {
-                            premiseString += inputString[i];
-                        }
-                    }
-                    //unbracketed=~()^()
-                }
-                else
-                {
-                    unbracketed = inputString;
-                    if (unbracketed.Contains("~"))
-                    {
-                        newPremise = new Premise(this.MakeCustom(inputString.Substring(1)));
-                        return newPremise;
-                    }
+			//reconstruct negated object strings
+			if (objectString.Count > 1 && unbracketed.Contains("~"))
+			{
+				var negationCounter = 0;
+				for (var i = 0; i < unbracketed.Length; i++)
+				{
+					if (unbracketed[i] == '~') negationCounter++;
+				}
+				if (negationCounter == 2)
+				{
+					for (var i = 0; i < 2; i++)
+					{
+						objectString[i] = "~(" + objectString[i] + ")";
+					}
+				}
+				else
+				{
+					if (unbracketed[0] == '~') objectString[0] = "~(" + objectString[0] + ")";
+					else objectString[1] = "~(" + objectString[1] + ")";
+				}
+			}
 
-                }
+			//Deal with conditional, biconditional, AND, and OR
+			if (unbracketed.Contains("<->"))
+			{
+                var childA = MakeCustom(objectString[0]);
+                var childB = MakeCustom(objectString[1]);
+                newPremise = new Premise(2, childA, childB);
+                return newPremise;
+			}
+			else if (unbracketed.Contains("->"))
+			{
+				var anticedent = MakeCustom(objectString[0]);
+				var consequent = MakeCustom(objectString[1]);
+				newPremise = new Premise(1, anticedent, consequent);
+				return newPremise;
+			}
+			else if (unbracketed.Contains("^"))
+			{
+				var childA = MakeCustom(objectString[0]);
+				var childB = MakeCustom(objectString[1]);
+				newPremise = new Premise(3, childA, childB);
+				return newPremise;
+			}
+			else if (unbracketed.Contains("v"))
+			{
+				var childA = MakeCustom(objectString[0]);
+				var childB = MakeCustom(objectString[1]);
+				newPremise = new Premise(4, childA, childB);
+				return newPremise;
+			}
 
-                //Deal with negations: add negation to object strings before they are
-                //constructed into premises.
-                if (unbracketed.Contains("~"))
-                {
-                    if (objectString.Count == 1)
-                    {
-                        newPremise = new Premise(this.MakeCustom(objectString[0]));
-                        return newPremise;
-                    }
-                    else
-                    {
-                        var negationCount = 0;
-                        for (var i = 0; i < unbracketed.Length; i++)
-                        {
-                            if (unbracketed[i] == '~') negationCount++;
-                        }
-                        if (negationCount == 2)
-                        {
-                            objectString[0] = "~(" + objectString[0] + ")";
-                            objectString[1] = "~(" + objectString[1] + ")";
-                        }
-                        else if (negationCount == 1 && unbracketed[0] == '~')
-                        {
-                            objectString[0] = "~(" + objectString[0] + ")";
-                        }
-                        else
-                        {
-                            objectString[1] = "~(" + objectString[1] + ")";
-                        }
-                    }
-                }
+            return null;
+            //For testing purposes
+			/*for (var i = 0; i < objectString.Count; i++)
+			{
+				Console.WriteLine(objectString[i]);
+			}
+			Console.WriteLine(unbracketed);*/
+		} //End of MakeCustom method.
 
-                //Construct premises based on object strings.
-                if (unbracketed.Contains("->"))
-                {
-                    
-                    newPremise = MakeChildrenCustom(1, objectString[0], objectString[1]);
-                    return newPremise;
-                }
-                else if (unbracketed.Contains("<->"))
-                {
-                    newPremise = MakeChildrenCustom(2, objectString[0], objectString[1]);
-                    return newPremise;
-                }
-                else if (unbracketed.Contains("^"))
-                {
-                    newPremise = MakeChildrenCustom(3, objectString[0], objectString[1]);
-                    return newPremise;
-                }
-                else if (unbracketed.Contains("v"))
-                {
-                    newPremise = MakeChildrenCustom(4, objectString[0], objectString[1]);
-                    return newPremise;
-                }
-                Console.WriteLine("Bad input.");
-                return null;
-            }
-        }
-
-        private Premise MakeChildrenCustom(int type, string a, string b)
+        //Uses MakeCustom method to construct an argument from a string.
+        public Argument MakeCustomArgument(string inputString)
         {
-            var premiseArray = new Premise[2];
-            premiseArray[0] = new Premise(this.MakeCustom((a)));
-            premiseArray[1] = new Premise(this.MakeCustom((b)));
-            var outPremise = new Premise(type, premiseArray[0], premiseArray[1]);
-            return outPremise;
+            var tokens = inputString.Split(' ');
+            var premises = new List<Premise>();
+            Premise conclusion;
+            Argument newArgument;
+
+            for (var i = 0; i < tokens.Length - 2;i++)
+            {
+                premises.Add(MakeCustom(tokens[i]));
+            }
+
+            conclusion = MakeCustom(tokens[tokens.Length - 1]);
+
+            newArgument = new Argument(premises, conclusion);
+            return newArgument;
         }
-    }
+	}
 }
