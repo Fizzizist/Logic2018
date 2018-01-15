@@ -7,10 +7,15 @@ namespace Logic2018
     {
         public Argument argument;
 
+        public ProblemConstructor()
+        {
+            
+        }
+
         public ProblemConstructor(int choice)
         {
             var charChoice = Convert.ToChar(choice);
-			using (StreamReader sr = new StreamReader("ArgumentConstructor.list"))
+			using (StreamReader sr = new StreamReader("textFiles/ArgumentConstructor.list"))
 			{
 				string line;
 				var counter = 0;
@@ -119,12 +124,42 @@ namespace Logic2018
 			//Deal with basic negation cases
 			if (objectString.Count == 1 && unbracketed.Contains("~"))
 			{
-				if (unbracketed.Contains("(") || unbracketed.Length == 1) 
+				var negationCounter = 0;
+
+				for (var i = 0; i < unbracketed.Length; i++)
+				{
+					if (unbracketed[i] == '~') negationCounter++;
+				}
+
+				if (negationCounter==1&&(unbracketed.Contains("(") || unbracketed.Length == 1)) 
                 {
                     var negatedPremise = MakeCustom(objectString[0]);
                     newPremise = new Premise(negatedPremise);
                     return newPremise;
                 }
+				else if (negationCounter>1&&unbracketed.Contains("("))
+				{
+					objectString[0] = "(" + objectString[0] + ")";
+					for (var i=negationCounter-1;i>0;i--)
+					{
+						objectString[0] = "~" + objectString[0];
+					}
+
+					var negatedPremise = MakeCustom(objectString[0]);
+                    newPremise = new Premise(negatedPremise);
+                    return newPremise;
+				}
+				else
+				{
+					for (var i=negationCounter-1;i>0;i--)
+					{
+						objectString[0] = "~" + objectString[0];
+					}
+
+					var negatedPremise = MakeCustom(objectString[0]);
+                    newPremise = new Premise(negatedPremise);
+                    return newPremise;
+				}
 			}
 
 			//reconstruct negated object strings

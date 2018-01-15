@@ -1,0 +1,17 @@
+Consider the following argument written in english:
+
+If it is raining then the ground is wet.
+It is raining.
+----------------------------------------
+Therefore, the ground is wet.
+
+This argument can be symbolized using letters to replace each proposition:
+
+P->Q. P C: Q
+
+where P is 'that is is raining' and Q is 'that the ground is wet'.
+
+We can show the logical validity of this argument using a derivation.
+Each derivation begins with a 'Show' statement, so first we can either
+type 'Show P' or 'Show C' to indicate that we are about to prove
+the conclusion.

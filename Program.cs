@@ -12,12 +12,12 @@ namespace Logic2018
             string command;
             var stillRunning = true;
             var solved = new bool[6];
-
+            var saveCloud = new SaveCloud();
             ProblemConstructor problemConstructor;
             var mainInventory = new List<Premise>();
 
             //Print introduction.
-            using (StreamReader sr = new StreamReader("Intro.txt"))
+            using (StreamReader sr = new StreamReader("textFiles/Intro.txt"))
             {
                 string line;
                 while ((line = sr.ReadLine()) != null) 
@@ -26,17 +26,26 @@ namespace Logic2018
                 }
             }
 
+            Console.WriteLine("Please enter a user ID. If you do not have one yet it will automatically be created for you.");
+            Console.Write("User ID:");
+            var userID = Console.ReadLine();
+
+            if (!saveCloud.CheckUserExists(userID)) saveCloud.CreateSaveData(userID, 6);
+
             //Main loop.
             MainLoop:
             while (stillRunning)
             {
                 var show = new Show();
                 Argument currentArgument;
+
+                solved = saveCloud.GetSolved(userID, 6);
+
                 Console.WriteLine("Choose an argument to derive:");
 
                 Loop1:
                 //Print argument list.
-				using (StreamReader sr = new StreamReader("Arguments.list"))
+				using (StreamReader sr = new StreamReader("textFiles/Arguments.list"))
 				{
 					string line;
                     var counter = 0;
@@ -61,7 +70,7 @@ namespace Logic2018
                     switch (choice)
                     {
                         case "help":
-							using (StreamReader sr = new StreamReader("helpMain.txt"))
+							using (StreamReader sr = new StreamReader("textFiles/helpMain.txt"))
 							{
 								string line;
 								while ((line = sr.ReadLine()) != null)
@@ -82,6 +91,7 @@ namespace Logic2018
                                 }
                             }
                             goto MainLoop;
+                        
                         case "load":
 							if (File.Exists("saves/save.dat"))
 							{
@@ -94,6 +104,11 @@ namespace Logic2018
 								}
 							}
                             goto MainLoop;
+
+                        case "tutorial":
+                            var tutorial = new Tutorial(1);
+                            goto MainLoop;
+
                         default:
 							Console.WriteLine("That is not a valid choice. Try again.");
 							goto Loop1;
@@ -108,7 +123,7 @@ namespace Logic2018
                 switch (command)
                 {
 					case "help":
-						using (StreamReader sr = new StreamReader("helpMain.txt"))
+						using (StreamReader sr = new StreamReader("textFiles/helpMain.txt"))
 						{
 							string line;
 							while ((line = sr.ReadLine()) != null)
@@ -130,6 +145,7 @@ namespace Logic2018
                                 {
                                     Console.WriteLine("Solved!");
                                     solved[Convert.ToInt32(choice)] = true;
+                                    saveCloud.MakeSolvedTrue(userID, Convert.ToInt32(choice));
                                     break;
                                 }
                                 break;
@@ -146,6 +162,7 @@ namespace Logic2018
                                     {
 										Console.WriteLine("Solved!");
 										solved[Convert.ToInt32(choice)] = true;
+                                        saveCloud.MakeSolvedTrue(userID, Convert.ToInt32(choice));
 										break;
                                     }
                                     else

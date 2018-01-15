@@ -13,4 +13,9 @@
 
   <ItemGroup>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="6.10.5" />
+    <PackageReference Include="Mono.CSharp" Version="4.0.0.143" />
+    <PackageReference Include="System.Runtime" Version="4.3.0" />
+  </ItemGroup>
 </Project>
