@@ -1,6 +1,0 @@
-0: P→Q. P ∴ Q
-1: P→R. R→Q ∴ P→Q
-2: ~P. Q→P ∴ ~Q
-3: ~~(P→Q). P ∴ Q
-4: P. R→~Q. P→Q ∴ ~R
-5: P→(Q→R). (Q→R)→S. ~S ∴ ~P
