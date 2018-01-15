@@ -1,6 +1,0 @@
-0 P->Q P C: Q
-1 P->R R->Q C: P->Q
-2 ~P Q->P C: ~Q
-3 ~~(P->Q) P C: Q
-4 P R->~Q P->Q C: ~R
-5 P->(Q->R) (Q->R)->S ~S C: ~P
