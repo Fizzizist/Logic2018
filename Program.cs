@@ -10,6 +10,7 @@ namespace Logic2018
         static void Main(string[] args)
         {
             string command;
+            string userID = null;
             var stillRunning = true;
             var solved = new bool[6];
             var saveCloud = new SaveCloud();
@@ -25,12 +26,47 @@ namespace Logic2018
                     Console.WriteLine(line);
                 }
             }
+            InitialLoop:
+            var initialInt = 0;
 
-            Console.WriteLine("Please enter a user ID. If you do not have one yet it will automatically be created for you.");
-            Console.Write("User ID:");
-            var userID = Console.ReadLine();
+            Console.WriteLine("Choose from the following options:");
+            Console.WriteLine("1. New User");
+            Console.WriteLine("2. Existing User");
+            Console.Write("Input:");
 
-            if (!saveCloud.CheckUserExists(userID)) saveCloud.CreateSaveData(userID, 6);
+            initialInt = Convert.ToInt32(Console.ReadLine());
+
+            switch (initialInt)
+            {
+                case 1:
+                    saveCloud.CreateNewUser();
+                    userID = saveCloud.GetUserID();
+                    break;
+                case 2:
+                    Console.Write("User ID:");
+                    userID = Console.ReadLine();
+                    System.Console.Write("password: ");
+                    string password = null;
+                    while (true)
+                    {
+                        var key = System.Console.ReadKey(true);
+                        if (key.Key == ConsoleKey.Enter)
+                            break;
+                        password += key.KeyChar;
+                    }
+                    if (saveCloud.UserAuthenticate(userID, password))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("UserID and password did not match what is in the system. Please try again.");
+                        goto InitialLoop;
+                    }
+                default:
+                    Console.WriteLine("Invalid response. Try again.");
+                    goto InitialLoop;
+            }
 
             //Main loop.
             MainLoop:

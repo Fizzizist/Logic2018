@@ -40,9 +40,10 @@ namespace Logic2018
                 connection.Open();
                 return true;
             }
-            catch(MySqlException e)
+            catch(MySqlException)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("There is currently a problem connecting to the server.");
+				Console.WriteLine("Type 'save' to save locally");
                 return false;
             }
 		}
@@ -68,7 +69,7 @@ namespace Logic2018
             var queries = new string[rows];
 			for (var i=0;i<rows;i++)
 			{
-				queries[i] = "INSERT INTO save_data (user_id, derivation, solved) VALUES('"+ id +"', "+ i + ", false)";
+				queries[i] = "INSERT INTO savedata_"+id+"(derivation, solved) VALUES("+ i + ", false)";
 			}
 		
 			//open connection
@@ -118,7 +119,7 @@ namespace Logic2018
 			var returnBool = new bool[rows];
 			for (var i=0;i<rows;i++)
 			{
-				queries[i] = "SELECT solved FROM save_data WHERE user_id = '"+id+"' AND derivation = "+i;
+				queries[i] = "SELECT solved FROM savedata_"+id+" WHERE derivation = "+i;
 			}
 			
 			if (this.OpenConnection()==true)
@@ -136,7 +137,7 @@ namespace Logic2018
 
 		public void MakeSolvedTrue(string id, int entry)
 		{
-			var query = "UPDATE save_data SET solved = true WHERE user_id = '"+id+"' AND derivation = "+entry;
+			var query = "UPDATE savedata_"+id+" SET solved = true WHERE derivation = "+entry;
 
 			if (this.OpenConnection() == true)
 			{
@@ -151,6 +152,119 @@ namespace Logic2018
 				this.CloseConnection();
 			}
 		}
+
+		public string GetHash(string input)
+		{
+			var query = "SELECT sha1('" + input + "');";
+
+			string result;
+			if (this.OpenConnection() == true)
+			{
+				
+				//create command and assign the query and connection from the constructor
+				var cmd = new MySqlCommand(query, connection);
+
+				//Execute command
+				result = Convert.ToString(cmd.ExecuteScalar());	
+
+				//close connection
+				this.CloseConnection();
+			}
+			else 
+			{
+				result = "";
+			}
+			return result;
+		}
+
+		public void CreateNewUser()
+		{
+			Console.Write("type new UserID:");
+			uid = Console.ReadLine();
+			string password = null;
+
+			PasswordLoop:
+			System.Console.Write("type new password: ");
+            string password1 = null;
+        	while (true)
+            {
+        		var key = System.Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Enter)
+                    break;
+                password1 += key.KeyChar;
+            }
+
+			System.Console.Write("Retype new password: ");
+            string password2 = null;
+        	while (true)
+            {
+        		var key = System.Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Enter)
+                    break;
+                password2 += key.KeyChar;
+            }
+
+			if (password1==password2)
+			{
+				password = password1;
+			}
+			else
+			{
+				Console.WriteLine("Those passwords don't match. Try again.");
+				goto PasswordLoop;
+			}
+
+			var query1 = "INSERT INTO user (user_id, password) VALUES ('"+uid+"', sha1('"+password+"'));";
+			var query2 = "CREATE TABLE savedata_"+uid+"(derivation INT, solved BOOL);";
+
+			if (this.OpenConnection() == true)
+			{
+				
+				//create command and assign the query and connection from the constructor
+				var cmd1 = new MySqlCommand(query1, connection);
+				var cmd2 = new MySqlCommand(query2, connection);
+
+				//Execute command
+				cmd1.ExecuteNonQuery();
+				cmd2.ExecuteNonQuery();	
+
+				//close connection
+				this.CloseConnection();
+			}
+
+			this.CreateSaveData(uid, 6);
+			
+		}
+
+		public bool UserAuthenticate(string user, string pass)
+		{
+			var hashpass = this.GetHash(pass);
+
+			var query = "SELECT password FROM user WHERE user_id = '"+user+"';";
+			string result = null;
+			if (this.OpenConnection() == true)
+			{
+				//create command and assign the query and connection from the constructor
+				var cmd = new MySqlCommand(query, connection);
+
+				//Execute command
+				result = Convert.ToString(cmd.ExecuteScalar());	
+
+				//close connection
+				this.CloseConnection();
+			}
+
+			if (result==hashpass)
+				return true;
+			else
+				return false;
+		}
+
+		public string GetUserID()
+		{
+			return uid;
+		}
+
 		//Deletes a table
 		/*
 		public void DropTable()

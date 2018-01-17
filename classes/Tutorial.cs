@@ -10,7 +10,7 @@ namespace Logic2018
             switch (part)
             {
                 case 1:
-                    using (StreamReader sr = new StreamReader("Intro.txt"))
+                    using (StreamReader sr = new StreamReader("textFiles/tutorial.txt"))
                     {
                         string line;
                         var count = 0;
@@ -21,19 +21,45 @@ namespace Logic2018
                             count++;
                         }
                     }
-                    var problem = new ProblemConstructor();
-                    Argument argument1 = problem.MakeCustomArgument("P->Q P C: Q");
+                    var problem = new ProblemConstructor(0);
+                    var argument1 = problem.argument;
                     Console.WriteLine(argument1.GetArgument());
-                    Console.WriteLine("Every statement must start with a 'Show' statement, where we state what conclusion we are attempting to derive.In this case it is P.So to start the derivation, type 'Show P' into the console and hit enter.");
                     Loop1:
-                    var tokens = Console.ReadLine().Split(' ');
-                    if ((tokens[0]!="Show"&&tokens[1]!="P")||tokens.Length!=2) 
+                    Console.Write("Command:");
+                    var tokens1 = Console.ReadLine().Split(' ');
+                    if ((tokens1[0]!="Show"&&(tokens1[1]!="P"||tokens1[1]!="C"))||tokens1.Length!=2) 
                     {
-                        if (tokens[0] == "exit") break;
+                        if (tokens1[0] == "exit") break;
                         else
                         {
 							Console.WriteLine("Invalid input, please follow the tutorial or type 'exit'");
 							goto Loop1;
+                        }
+                    }
+                    else
+                    {
+                        using (StreamReader sr = new StreamReader("textFiles/tutorial.txt"))
+                        {
+                            string line;
+                            var count = 21;
+                            while (count < 40) 
+                            {
+                                line = sr.ReadLine();
+                                Console.WriteLine(line);
+                                count++;
+                            }
+                        }
+                        Loop2:
+                        Console.Write("Command:");
+                        var tokens2 = Console.ReadLine().Split(' ');
+                        if ((tokens2[0]!="MP"&&(tokens2[1]!="P"||tokens2[1]!="C"))||tokens2.Length!=2) 
+                        {
+                            if (tokens2[0] == "exit") break;
+                            else
+                            {
+							    Console.WriteLine("Invalid input, please follow the tutorial or type 'exit'");
+							    goto Loop1;
+                            }
                         }
                     }
                     break;
