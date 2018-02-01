@@ -13,5 +13,42 @@ where P is 'that is is raining' and Q is 'that the ground is wet'.
 
 We can show the logical validity of this argument using a derivation.
 Each derivation begins with a 'Show' statement, so first we can either
-type 'Show P' or 'Show C' to indicate that we are about to prove
+type 'Show Q' or 'Show C' to indicate that we are about to prove
 the conclusion.
+
+
+
+Now that we have our 'Show' statment, we can begin deriving it.
+There are three ways that you can derive a conclusion:
+
+Direct Derivation (DD)
+Indirect Derivation (ID)
+Conditional Derivation (CD)
+
+Since this argument is so simple, it suffices to use DD to derive Q.
+To do this, all we need to do is produce Q and then instanctiate the DD Rule.
+
+We currently have two premises to work with: P->Q and P.
+We currently only have 1 rule at our disposal: Modus Ponens (MP)
+
+Modus Ponens is the most foundational logical rule. It states that
+if I have P->Q and I have P, then I have Q. So to derive Q all I need
+is one instantiation of MP. To do this I can type the command
+'MP PR1 PR2' or 'MP PR2 PR1'
+This will indicate that I intend to use MP rule on the first and second
+premises of the argument. Go ahead and try this command.
+Show Q
+
+
+Show Q
+0: Q
+
+As you can see the instantiation of the MP rule gives us Q. This also happens
+to be the exact proposition that we are attemping to derive.
+
+To finish the derivation, we simply have to state that we have solved this 
+through direct derivation by inputting the DD command. So let's finish the
+derivation by typeing 'DD 0'.
+
+Show Q
+0: Q 

@@ -12,8 +12,8 @@ namespace Logic2018
             string command;
             string userID = null;
             var stillRunning = true;
-            var solved = new bool[6];
             var saveCloud = new SaveCloud();
+            var solved = new bool[saveCloud.GetArgumentListLength()];
             ProblemConstructor problemConstructor;
             var mainInventory = new List<Premise>();
 
@@ -29,12 +29,25 @@ namespace Logic2018
             InitialLoop:
             var initialInt = 0;
 
+            if (!saveCloud.CheckConnection())
+            {
+                goto MainLoop;
+            }
+
             Console.WriteLine("Choose from the following options:");
             Console.WriteLine("1. New User");
             Console.WriteLine("2. Existing User");
             Console.Write("Input:");
 
-            initialInt = Convert.ToInt32(Console.ReadLine());
+            try
+            {
+                initialInt = Convert.ToInt32(Console.ReadLine());
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("That's not a number. Try again.");
+                goto InitialLoop;
+            }
 
             switch (initialInt)
             {
@@ -56,6 +69,7 @@ namespace Logic2018
                     }
                     if (saveCloud.UserAuthenticate(userID, password))
                     {
+                        saveCloud.UserTableCheck(userID);
                         break;
                     }
                     else
@@ -75,7 +89,7 @@ namespace Logic2018
                 var show = new Show();
                 Argument currentArgument;
 
-                solved = saveCloud.GetSolved(userID, 6);
+                solved = saveCloud.GetSolved(userID, saveCloud.GetArgumentListLength());
 
                 Console.WriteLine("Choose an argument to derive:");
 

@@ -241,5 +241,7 @@ namespace Logic2018
             newArgument = new Argument(premises, conclusion);
             return newArgument;
         }
+
+		
 	}
 }

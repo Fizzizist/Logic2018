@@ -1,6 +1,8 @@
 ﻿using System;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
+using System.IO;
+
 namespace Logic2018
 {
     public class SaveCloud
@@ -232,7 +234,7 @@ namespace Logic2018
 				this.CloseConnection();
 			}
 
-			this.CreateSaveData(uid, 6);
+			this.CreateSaveData(uid, this.GetArgumentListLength());
 			
 		}
 
@@ -260,11 +262,72 @@ namespace Logic2018
 				return false;
 		}
 
+		public void UserTableCheck(string id)
+		{
+			var expectedInt = this.GetArgumentListLength();
+			var query1 = "SELECT COUNT(*) FROM savedata_"+id+";";
+			
+			var result = 0;
+			QueryLoop:
+			if (this.OpenConnection() == true)
+			{
+				//create command and assign the query and connection from the constructor
+				var cmd = new MySqlCommand(query1, connection);
+
+				//Execute command
+				result = Convert.ToInt32(cmd.ExecuteScalar());	
+
+				//close connection
+				this.CloseConnection();
+			}
+			if (result<expectedInt)
+			{
+				var query2 = "INSERT INTO savedata_"+id+" (derivation,solved) VALUES("+Convert.ToString(result)+",false);";
+				if (this.OpenConnection() == true)
+				{	
+					//create command and assign the query and connection from the constructor
+					var cmd = new MySqlCommand(query2, connection);
+
+					//Execute command
+					cmd.ExecuteNonQuery();	
+
+					//close connection
+					this.CloseConnection();
+				}
+				goto QueryLoop;
+			}
+		}
+
 		public string GetUserID()
 		{
 			return uid;
 		}
 
+		public bool CheckConnection()
+		{
+			if (this.OpenConnection()==true)
+			{
+				this.CloseConnection();
+				return true;
+			}
+			return false;
+		}
+
+		public int GetArgumentListLength()
+		{
+			using (StreamReader sr = new StreamReader("textFiles/ArgumentConstructor.list"))
+			{
+				string line;
+				var counter = 0;
+
+				while ((line = sr.ReadLine()) != null)
+				{
+					counter++;
+				}
+				//Console.WriteLine(counter);  //testing
+				return counter;
+			}
+		}
 		//Deletes a table
 		/*
 		public void DropTable()

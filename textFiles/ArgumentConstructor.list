@@ -4,3 +4,4 @@
 3 ~~(P->Q) P C: Q
 4 P R->~Q P->Q C: ~R
 5 P->(Q->R) (Q->R)->S ~S C: ~P
+6 ~Q C: (P->Q)->~P
