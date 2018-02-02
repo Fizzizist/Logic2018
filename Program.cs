@@ -115,7 +115,7 @@ namespace Logic2018
                     currentArgument = problemConstructor.argument;
                     Console.WriteLine(currentArgument.GetArgument());
                 }
-                catch(Exception)
+                catch(Exception e)
                 {
                     switch (choice)
                     {
@@ -161,6 +161,7 @@ namespace Logic2018
 
                         default:
 							Console.WriteLine("That is not a valid choice. Try again.");
+                            Console.WriteLine(e); //testing
 							goto Loop1;
                     }
                 }

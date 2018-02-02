@@ -14,7 +14,7 @@ namespace Logic2018
 
         public ProblemConstructor(int choice)
         {
-            var charChoice = Convert.ToChar(choice);
+            
 			using (StreamReader sr = new StreamReader("textFiles/ArgumentConstructor.list"))
 			{
 				string line;
@@ -22,13 +22,20 @@ namespace Logic2018
 
 				while ((line = sr.ReadLine()) != null)
 				{
-                    var lineInt = Convert.ToInt32(line.Substring(0,1));
+					int lineInt;
+                    if (choice<10) lineInt = Convert.ToInt32(line.Substring(0,1));
+					else lineInt = Convert.ToInt32(line.Substring(0,2));
                     if (choice<10&&(lineInt==choice))
                     {
                         argument = MakeCustomArgument(line.Substring(2));
                         //Console.WriteLine(line);
                         goto Done;
                     }
+					else if (choice >= 10 && (lineInt==choice))
+					{
+						argument = MakeCustomArgument(line.Substring(3));
+						goto Done;
+					}
                     //Console.WriteLine(lineInt + " " + choice);
 					counter++;
 				}

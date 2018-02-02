@@ -5,3 +5,8 @@
 4 P R->~Q P->Q C: ~R
 5 P->(Q->R) (Q->R)->S ~S C: ~P
 6 ~Q C: (P->Q)->~P
+7 R->Q R->~Q C: ~R
+8 P->~Q R->Q C: P->~R
+9 P->(Q->~R) Q C: P->~R
+10 P->~P C: ~P
+11 T->~P ~T->~P C: ~P

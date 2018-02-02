@@ -6,7 +6,7 @@ namespace Logic2018
     {
         public Tutorial(int part)
         {
-            string input;
+            
             switch (part)
             {
                 case 1:
