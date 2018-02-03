@@ -8,9 +8,12 @@ namespace Logic2018
         private List<Premise> inventory = new List<Premise>();
         private List<Premise> argumentPremises = new List<Premise>();
         private Rules rules = new Rules();
+		private int assumeCounter;
+		
 
         public Show()
         {
+			assumeCounter = 0;
         }
 
         //Main loop for derivation of the argument's conclusion.
@@ -26,7 +29,7 @@ namespace Logic2018
             }
 
             Console.WriteLine(argument.GetArgument());
-            Console.WriteLine("Show: " + toShow.GetPremise());
+			this.ListSheet(toShow);
 
             var notSolved = true;
             string command;
@@ -144,14 +147,40 @@ namespace Logic2018
                         this.ListSheet(toShow);
 						break;
 
+					case "Show":
+						if (!this.CheckTokenLength(tokens, 2)) break;
+						var problemConstructor = new ProblemConstructor();
+						var newPremise = problemConstructor.MakeCustom(tokens[1]);
+						if (newPremise==null)
+						{
+							Console.WriteLine("Invalid premise");
+							break;
+						}
+						var newShow = new Show();
+						if (newShow.ShowPremise(argument, newPremise, inventory))
+						{
+							inventory.Add(newPremise);
+							Console.WriteLine(argument.GetArgument());
+							this.ListSheet(toShow);
+							break;
+						}
+						break;
+
+
 					//Assume CD or ID
 					case "ASS":
 						if (!this.CheckTokenLength(tokens, 2)) break;
+						if (assumeCounter>0) 
+						{
+							Console.WriteLine("Only 1 assume statement can be made per Show statement.");
+							break;
+						}
 						if (tokens[1] == "ID")
 						{
 							inventory.Add(new Premise(argument.conclusion));
 							Console.WriteLine(argument.GetArgument());
                             this.ListSheet(toShow);
+							assumeCounter++;
 							break;
 						}
 						else if (tokens[1] == "CD")
@@ -161,6 +190,7 @@ namespace Logic2018
 								inventory.Add(argument.conclusion.anti);
 								Console.WriteLine(argument.GetArgument());
                                 this.ListSheet(toShow);
+								assumeCounter++;
 								break;
 							}
 							else

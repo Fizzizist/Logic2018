@@ -11,6 +11,7 @@ namespace Logic2018
         public bool MPCheck(Premise a, Premise b)
         {
             if ((a.type==0&&b.type==1)||(a.type == 1 && b.type == 0)) return true;
+            else if ((a.type==5&&b.type==1)||(a.type == 1 && b.type == 5)) return true;
             return false;
         }
 
