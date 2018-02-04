@@ -70,7 +70,9 @@ namespace Logic2018
 							break;
 						}
 
-						inventory.Add(rules.ModusPonens(inMP[0], inMP[1]));
+						var resultPremise = rules.ModusPonens(inMP[0],inMP[1]);
+						if (resultPremise==null) break;
+						inventory.Add(resultPremise);
                         Console.WriteLine(argument.GetArgument());
                         this.ListSheet(toShow);
 						break;
@@ -88,7 +90,9 @@ namespace Logic2018
 							break;
 						}
 
-						inventory.Add(rules.ModusTolens(inMT[0], inMT[1]));
+						var MTresultPremise = rules.ModusTolens(inMT[0],inMT[1]);
+						if (MTresultPremise==null) break;
+						inventory.Add(MTresultPremise);
                         Console.WriteLine(argument.GetArgument());
                         this.ListSheet(toShow);
 						break;
@@ -185,9 +189,9 @@ namespace Logic2018
 						}
 						else if (tokens[1] == "CD")
 						{
-							if (argument.conclusion.type == 1)
+							if (toShow.type == 1)
 							{
-								inventory.Add(argument.conclusion.anti);
+								inventory.Add(toShow.anti);
 								Console.WriteLine(argument.GetArgument());
                                 this.ListSheet(toShow);
 								assumeCounter++;
@@ -229,7 +233,7 @@ namespace Logic2018
 						try
 						{
                             var temp = Convert.ToInt32(tokens[1]);
-                            if (inventory[temp]._Equals(argument.conclusion))
+                            if (inventory[temp]._Equals(toShow))
 							{
                                 return true;
 							}
@@ -249,7 +253,7 @@ namespace Logic2018
                         try
                         {
                             var temp = Convert.ToInt32(tokens[1]);
-							if (inventory[temp]._Equals(argument.conclusion.cons))
+							if (inventory[temp]._Equals(toShow.cons))
 							{
 								return true;
 							}

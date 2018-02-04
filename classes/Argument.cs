@@ -28,5 +28,21 @@ namespace Logic2018
             _out = _out + "∴" + conclusion.GetPremise();
             return _out;
         }
+
+        public string GetArgumentDisplay()
+        {
+            var _out = "";
+            var count = 1;
+            if(premises.Count==0) goto Theorem;
+            for (var i = 0; i < premises.Count-1; i++)
+            {
+                _out += premises[i].GetPremise() + ". ";
+                count++;
+            }
+            _out += premises[premises.Count-1].GetPremise();
+            Theorem:
+            _out += " ∴ " + conclusion.GetPremise();
+            return _out;
+        }
     }
 }

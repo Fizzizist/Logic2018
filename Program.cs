@@ -33,7 +33,7 @@ namespace Logic2018
             {
                 goto MainLoop;
             }
-
+            
             Console.WriteLine("Choose from the following options:");
             Console.WriteLine("1. New User");
             Console.WriteLine("2. Existing User");
@@ -94,18 +94,11 @@ namespace Logic2018
                 Console.WriteLine("Choose an argument to derive:");
 
                 Loop1:
-                //Print argument list.
-				using (StreamReader sr = new StreamReader("textFiles/Arguments.list"))
+                var argumentDisplay = saveCloud.GetArgumentDisplay();
+				for (var i = 0; i < saveCloud.GetArgumentListLength(); i++)
 				{
-					string line;
-                    var counter = 0;
-					while ((line = sr.ReadLine()) != null)
-					{
-						Console.Write(line);
-                        if (solved[counter] == true) Console.WriteLine("(Solved)");
-                        else Console.WriteLine("");
-                        counter++;
-					}
+                    if (solved[i] == true) Console.WriteLine(i+": "+argumentDisplay[i]+" (Solved)");
+                    else Console.WriteLine(i+": "+argumentDisplay[i]);
 				}
                 var choice = Console.ReadLine();
                 try 
@@ -159,6 +152,9 @@ namespace Logic2018
                             var tutorial = new Tutorial(1);
                             goto MainLoop;
 
+                        case "make-argument":
+                            saveCloud.InsertArgument();
+                            goto MainLoop;
                         default:
 							Console.WriteLine("That is not a valid choice. Try again.");
                             Console.WriteLine(e); //testing

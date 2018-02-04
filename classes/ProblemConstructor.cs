@@ -6,6 +6,7 @@ namespace Logic2018
     public class ProblemConstructor
     {
         public Argument argument;
+		private SaveCloud saveCloud = new SaveCloud();
 
         public ProblemConstructor()
         {
@@ -14,35 +15,7 @@ namespace Logic2018
 
         public ProblemConstructor(int choice)
         {
-            
-			using (StreamReader sr = new StreamReader("textFiles/ArgumentConstructor.list"))
-			{
-				string line;
-				var counter = 0;
-
-				while ((line = sr.ReadLine()) != null)
-				{
-					int lineInt;
-                    if (choice<10) lineInt = Convert.ToInt32(line.Substring(0,1));
-					else lineInt = Convert.ToInt32(line.Substring(0,2));
-                    if (choice<10&&(lineInt==choice))
-                    {
-                        argument = MakeCustomArgument(line.Substring(2));
-                        //Console.WriteLine(line);
-                        goto Done;
-                    }
-					else if (choice >= 10 && (lineInt==choice))
-					{
-						argument = MakeCustomArgument(line.Substring(3));
-						goto Done;
-					}
-                    //Console.WriteLine(lineInt + " " + choice);
-					counter++;
-				}
-            Done:;
-
-			}
-
+            argument = MakeCustomArgument(saveCloud.GetArgumentConstructorRow(choice));
         }
 
         //Parses the input string and makes nested Premises out of string.

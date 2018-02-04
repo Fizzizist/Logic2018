@@ -315,32 +315,81 @@ namespace Logic2018
 
 		public int GetArgumentListLength()
 		{
-			using (StreamReader sr = new StreamReader("textFiles/ArgumentConstructor.list"))
-			{
-				string line;
-				var counter = 0;
+			var amount = 0;
+			var query = "SELECT COUNT(*) FROM argument_display;";
+			if (this.OpenConnection() == true)
+			{	
+				var cmd = new MySqlCommand(query, connection);
 
-				while ((line = sr.ReadLine()) != null)
-				{
-					counter++;
-				}
-				//Console.WriteLine(counter);  //testing
-				return counter;
-			}
-		}
-		//Deletes a table
-		/*
-		public void DropTable()
-		{
-			string query = "DROP TABLE save_data;";
+				amount = Convert.ToInt32(cmd.ExecuteScalar());	
 
-			if (this.OpenConnection()==true)
-			{
-				var cmd = new MySqlCommand(query,connection);
-				cmd.ExecuteNonQuery();
 				this.CloseConnection();
 			}
-		} */
+			return amount;
+		}
+
+		public string[] GetArgumentDisplay()
+		{
+			var result = new string[GetArgumentListLength()];
+			var queries = new string[result.Length];
+			for (var i=0;i<queries.Length;i++)
+			{
+				queries[i] = "SELECT derivation FROM argument_display WHERE number = "+i+";";
+			}
+			if (this.OpenConnection() == true)
+			{	
+				for (var i=0;i<queries.Length;i++)
+				{
+					var cmd = new MySqlCommand(queries[i], connection);
+					result[i] = Convert.ToString(cmd.ExecuteScalar());	
+				}	
+				this.CloseConnection();
+			}
+			return result;
+		}
+
+		public string GetArgumentConstructorRow(int num)
+		{
+			var result = "";
+			var query = "SELECT derivation FROM argument_constructor where number = "+num+";";
+			if (this.OpenConnection() == true)
+			{	
+				var cmd = new MySqlCommand(query, connection);
+
+				result = Convert.ToString(cmd.ExecuteScalar());	
+
+				this.CloseConnection();
+			}
+			return result;
+		}
+		//Testing
+		public void InsertArgument()
+		{
+			Loop:
+			Console.Write("Argument:");
+			var input = Console.ReadLine();
+			if (input=="exit") goto End;
+			var problemConstructor = new ProblemConstructor();
+			var newArgument = problemConstructor.MakeCustomArgument(input);
+			if (newArgument==null)
+			{
+				Console.WriteLine("Bad Syntax, try again.");
+				goto Loop;
+			}
+			string query1 = "INSERT INTO argument_display VALUES("+GetArgumentListLength()+", N'"+newArgument.GetArgumentDisplay()+"');";
+			string query2 = "INSERT INTO argument_constructor VALUES("+GetArgumentListLength()+", '"+input+"');";
+			
+			if (this.OpenConnection()==true)
+			{
+				var cmd1 = new MySqlCommand(query1,connection);
+				var cmd2 = new MySqlCommand(query2,connection);
+				cmd1.ExecuteNonQuery();
+				cmd2.ExecuteNonQuery();
+				this.CloseConnection();
+			}
+			
+			End:;
+		} 
 
 		//Create table for save data.
 		/*public void CreateTable()

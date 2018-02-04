@@ -10,8 +10,7 @@ namespace Logic2018
         //Checks to make sure that MP can be performed on these particular premises.
         public bool MPCheck(Premise a, Premise b)
         {
-            if ((a.type==0&&b.type==1)||(a.type == 1 && b.type == 0)) return true;
-            else if ((a.type==5&&b.type==1)||(a.type == 1 && b.type == 5)) return true;
+            if (a.type==1||b.type==1) return true;
             return false;
         }
 
@@ -48,10 +47,13 @@ namespace Logic2018
         {	
             switch (a.type)
             {
-                case 0:
-                    return b.cons;
+                case 0: case 2: case 3: case 4: case 5:
+                    if (a._Equals(b.anti)) return b.cons;
+                    else return null;
                 case 1:
-                    return a.cons;
+                    if (b.type==1&&a._Equals(b.anti)) return b.cons;
+                    else if (b._Equals(a.anti)) return a.cons;
+                    else return null;
                 default:
                     return null;
             }
@@ -64,11 +66,19 @@ namespace Logic2018
 			switch (a.type)
 			{
 				case 5:
-                    negated = new Premise(b.anti);
-					return negated;
+                    if (a.negated._Equals(b.cons)) 
+                    {
+                        negated = new Premise(b.anti);
+					    return negated;
+                    }
+                    else return null;
 				case 1:
-                    negated =new Premise(a.anti);
-                    return negated;
+                    if (b.negated._Equals(a.cons))
+                    {
+                        negated = new Premise(a.anti);
+                        return negated;    
+                    }
+                    else return null;
 				default:
 					return null;
 			}
