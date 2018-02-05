@@ -331,18 +331,21 @@ namespace Logic2018
 		public string[] GetArgumentDisplay()
 		{
 			var result = new string[GetArgumentListLength()];
-			var queries = new string[result.Length];
-			for (var i=0;i<queries.Length;i++)
-			{
-				queries[i] = "SELECT derivation FROM argument_display WHERE number = "+i+";";
-			}
+			
+			var query = "SELECT * FROM argument_display;";
 			if (this.OpenConnection() == true)
 			{	
-				for (var i=0;i<queries.Length;i++)
+				 
+				var cmd = new MySqlCommand(query, connection);
+				MySqlDataReader rdr = cmd.ExecuteReader();
+				var counter = 0;
+				while(rdr.Read())
 				{
-					var cmd = new MySqlCommand(queries[i], connection);
-					result[i] = Convert.ToString(cmd.ExecuteScalar());	
-				}	
+					
+					var derivation = (string)rdr["derivation"];
+					result[counter] = derivation;
+					counter++;
+				}		
 				this.CloseConnection();
 			}
 			return result;

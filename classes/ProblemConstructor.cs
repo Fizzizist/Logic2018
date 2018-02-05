@@ -98,7 +98,8 @@ namespace Logic2018
 			{
 				Console.WriteLine(objectString[i]);
 			}
-			Console.WriteLine(unbracketed);*/
+			Console.WriteLine(unbracketed);
+			Console.WriteLine(objectString.Count);*/
 
 
 			//Deal with basic negation cases
@@ -145,24 +146,40 @@ namespace Logic2018
 			//reconstruct negated object strings
 			if (objectString.Count > 1 && unbracketed.Contains("~"))
 			{
-				var negationCounter = 0;
-				for (var i = 0; i < unbracketed.Length; i++)
+				var firstNegatedPremise = 0;
+				var firstNegatedAmount = 0;
+				var secondNegatedAmount = 0;
+				for (var i=0;i<unbracketed.Length;i++)
 				{
-					if (unbracketed[i] == '~') negationCounter++;
-				}
-				if (negationCounter == 2)
-				{
-					for (var i = 0; i < 2; i++)
+					if (unbracketed[i]=='~') firstNegatedAmount++;
+					if (unbracketed[i]!='~')
 					{
-						objectString[i] = "~(" + objectString[i] + ")";
+						firstNegatedPremise = i;
+						goto SecondFor;
 					}
 				}
-				else
+				SecondFor:
+				for (var i=firstNegatedPremise;i<unbracketed.Length;i++)
 				{
-					if (unbracketed[0] == '~') objectString[0] = "~(" + objectString[0] + ")";
-					else objectString[1] = "~(" + objectString[1] + ")";
+					if (unbracketed[i]=='~') secondNegatedAmount++;
+					
+				}
+
+				if (firstNegatedAmount>0) objectString[0] = "(" + objectString[0] + ")";
+				for (var i=0;i<firstNegatedAmount;i++)
+				{
+					objectString[0] = "~" + objectString[0];
+				}
+
+				if (secondNegatedAmount>0) objectString[1] = "(" + objectString[1] + ")";
+				for (var i=0;i<secondNegatedAmount;i++)
+				{
+					objectString[1] = "~" + objectString[1];
 				}
 			}
+
+			//testing
+			//Console.WriteLine(objectString[1]);
 
 			//Deal with conditional, biconditional, AND, and OR
 			if (unbracketed.Contains("<->"))
@@ -193,7 +210,7 @@ namespace Logic2018
 				newPremise = new Premise(4, childA, childB);
 				return newPremise;
 			}
-
+			Console.WriteLine("Bad Premise.");
             return null;
             //For testing purposes
 			/*for (var i = 0; i < objectString.Count; i++)
@@ -215,6 +232,12 @@ namespace Logic2018
             {
                 premises.Add(MakeCustom(tokens[i]));
             }
+
+			//testing
+			/*for (var i=0; i<premises.Count;i++)
+			{
+				Console.WriteLine(premises[i].GetPremise());
+			}*/
 
             conclusion = MakeCustom(tokens[tokens.Length - 1]);
 

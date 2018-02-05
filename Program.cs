@@ -17,6 +17,13 @@ namespace Logic2018
             ProblemConstructor problemConstructor;
             var mainInventory = new List<Premise>();
 
+            //Testing
+            /*Console.WriteLine("Premise:");
+            var testingCommand = Console.ReadLine();
+            problemConstructor = new ProblemConstructor();
+            var testPremise = problemConstructor.MakeCustom(testingCommand);
+            Console.WriteLine(testPremise.GetPremise());*/
+
             //Print introduction.
             using (StreamReader sr = new StreamReader("textFiles/Intro.txt"))
             {
