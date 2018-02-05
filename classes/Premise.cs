@@ -55,8 +55,9 @@ namespace Logic2018
                 case 0:
                     return atomic;
                 case 1:
-                    if (anti.type != 0) return "(" + anti.GetPremise() + ")" + "→" + cons.GetPremise();
-                    if (cons.type != 0) return anti.GetPremise() + "→" + "(" + cons.GetPremise() + ")";
+                    if (anti.type!=0&&cons.type!=0) return "(" + anti.GetPremise() + ")" + "→" + "(" + cons.GetPremise() + ")";
+                    else if (anti.type != 0) return "(" + anti.GetPremise() + ")" + "→" + cons.GetPremise();
+                    else if (cons.type != 0) return anti.GetPremise() + "→" + "(" + cons.GetPremise() + ")";
                     return anti.GetPremise() + "→" + cons.GetPremise();
                 case 2:
                     if (child1.type != 0) return "(" + child1.GetPremise() + ")" + "→" + child2.GetPremise();

@@ -181,7 +181,7 @@ namespace Logic2018
 						}
 						if (tokens[1] == "ID")
 						{
-							inventory.Add(new Premise(argument.conclusion));
+							inventory.Add(new Premise(toShow));
 							Console.WriteLine(argument.GetArgument());
                             this.ListSheet(toShow);
 							assumeCounter++;
