@@ -265,6 +265,19 @@ namespace Logic2018
                         }
 						catch (Exception)
 						{
+							if (tokens[1].Contains("PR"))
+							{
+								try 
+								{
+									if (argument.premises[Convert.ToInt32(tokens[1].Substring(2))-1]._Equals(toShow.cons)) return true;
+								}
+								catch (Exception e)
+								{
+									Console.WriteLine("That is not a premise.");
+									Console.WriteLine(e);
+									break;
+								}
+							}
 							Console.WriteLine("Error: Premise must be a reference to a line");
 							break;
 						}
