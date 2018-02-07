@@ -112,6 +112,39 @@ namespace Logic2018
                         }
                     }
                     break;
+                    //End of Tutorial 1
+                case 2:
+                    using (StreamReader sr = new StreamReader("textFiles/tutorial.txt"))
+                    {
+                        string line;
+                        var count = 0;
+                        while (count < 76) 
+                        {
+                            line = sr.ReadLine();
+                            if(count>=67)
+                            {
+                                Console.WriteLine(line);
+                            }
+                            count++;
+                        }
+                    }
+                    var problem2 = new ProblemConstructor(7);
+                    Console.WriteLine(problem2.argument.GetArgument());
+                    Console.Write("Command:");
+                    var tokens4 = Console.ReadLine().Split(' ');
+                    if ((tokens4[0]!="Show"&&(tokens4[1]!="~R"||tokens4[1]!="C"))||tokens4.Length!=2) 
+                    {
+                        if (tokens4[0] == "exit") break;
+                        else
+                        {
+							Console.WriteLine("Invalid input, please follow the tutorial or type 'exit'");
+							goto Loop1;
+                        }
+                    }
+                    else
+                    {
+                        
+                    }
             }
         }
     }

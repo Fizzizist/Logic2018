@@ -27,7 +27,7 @@ namespace Logic2018
             {
                 argumentPremises.Add(argument.premises[i]);
             }
-
+			MainShow:
             Console.WriteLine(argument.GetArgument());
 			this.ListSheet(toShow);
 
@@ -42,7 +42,7 @@ namespace Logic2018
 				switch (command)
 				{
 					case "help":
-						using (StreamReader sr = new StreamReader("helpShow.txt"))
+						using (StreamReader sr = new StreamReader("textFiles/helpShow.txt"))
 						{
 							string line;
 							while ((line = sr.ReadLine()) != null)
@@ -50,7 +50,7 @@ namespace Logic2018
 								Console.WriteLine(line);
 							}
 						}
-						break;
+						goto MainShow;
 
                     case "exit":
                         return false;

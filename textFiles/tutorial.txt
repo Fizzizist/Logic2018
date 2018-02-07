@@ -64,3 +64,13 @@ the Working with Conditionals problem set. See how many you can solve by just
 using DD and the simplest rules of MP and MT. For more info on MT, type 'help'
 while you are solving a derivation to view documentation for all of the available
 rules.
+
+Tutorial 2 (Indirect Derivations)
+
+Sometimes we cannot show the conclusion by a direct derivation. Consider the
+following argument:
+
+R->Q. R->~Q C: ~R
+
+Let us first perform our usual 'Show C' or 'Show ~R' command to get started.
+

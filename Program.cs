@@ -94,7 +94,7 @@ namespace Logic2018
             while (stillRunning)
             {
                 Console.WriteLine("Choose from the following menu options:");
-                Console.WriteLine("1. Tutorial");
+                Console.WriteLine("1. Tutorials");
                 Console.WriteLine("2. Problem set 1 (Working with Conditionals)");
                 int mainChoice = 0;
                 var mainInput = "";
@@ -115,8 +115,44 @@ namespace Logic2018
                 switch (mainChoice)
                 {
                     case 1:
-                        var tutorial = new Tutorial(1);
-                        goto MainMenu;
+                        TutorialMenu:
+                        Console.WriteLine("Choose a tutorial:");
+                        Console.WriteLine("1. The Very Basics (Direct Derivations)");
+                        Console.WriteLine("2. Indirect Derivations");
+                        Console.WriteLine("3. Conditional Derivations and extra Show statements");
+                        Console.Write("Choice:");
+                        var tutorialChoice = Console.ReadLine();
+                        var tutorialChoiceInt = 0;
+                        Tutorial tutorial;
+                        try
+                        {
+                            tutorialChoiceInt = Convert.ToInt32(tutorialChoice);
+                        }
+                        catch (Exception)
+                        {
+                            if (tutorialChoice=="exit") goto MainMenu;
+                            else 
+                            {
+                                Console.WriteLine("That is not even a number. Try Again, or type 'exit' to go to main menu.");
+                                goto TutorialMenu;
+                            }
+                        }
+                        switch (tutorialChoiceInt)
+                        {
+                            case 1:
+                                tutorial = new Tutorial(1);
+                                goto TutorialMenu;
+                            case 2:
+                                tutorial = new Tutorial(2);
+                                goto TutorialMenu;
+                            case 3:
+                                tutorial = new Tutorial(3);
+                                goto TutorialMenu;
+                            default:
+                                Console.WriteLine("That is not a valid choice. Try Again or type 'exit' to go to main menu.");
+                                goto TutorialMenu;
+
+                        }
                     case 2:
                         goto WorkingWithConditionals;
                     default:
@@ -137,9 +173,9 @@ namespace Logic2018
                 Console.WriteLine("Choose an argument to derive:");
 
                 Loop1:
-                var argumentDisplay = saveCloud.GetArgumentDisplay();
-                var upTo = saveCloud.GetArgumentListLength();
-				for (var i = 0; i < upTo; i++)
+                var argumentDisplay = saveCloud.GetArgumentDisplay(0,44);
+                var upTo = 44;
+				for (var i = 0; i <= upTo; i++)
 				{
                     if (solved[i] == true) Console.WriteLine(i+": "+argumentDisplay[i]+" (Solved)");
                     else Console.WriteLine(i+": "+argumentDisplay[i]);
@@ -158,7 +194,7 @@ namespace Logic2018
                     switch (choice)
                     {
                         case "help":
-							using (StreamReader sr = new StreamReader("textFiles/helpMain.txt"))
+							using (StreamReader sr = new StreamReader("textFiles/helpShow.txt"))
 							{
 								string line;
 								while ((line = sr.ReadLine()) != null)
@@ -205,11 +241,11 @@ namespace Logic2018
                 string[] tokens = Console.ReadLine().Split(' ');
                 command = tokens[0];
 
-                //Main menu commands.
+                
                 switch (command)
                 {
 					case "help":
-						using (StreamReader sr = new StreamReader("textFiles/helpMain.txt"))
+						using (StreamReader sr = new StreamReader("textFiles/helpShow.txt"))
 						{
 							string line;
 							while ((line = sr.ReadLine()) != null)
@@ -234,7 +270,10 @@ namespace Logic2018
                                     saveCloud.MakeSolvedTrue(userID, Convert.ToInt32(choice));
                                     break;
                                 }
-                                break;
+                                else
+                                {
+                                    goto MainMenu;
+                                }
                             default:
                                 Premise custom = problemConstructor.MakeCustom(tokens[1]);
                                 if (custom == null)

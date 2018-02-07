@@ -1,3 +1,21 @@
+Show Statements
+A Show statement is used to initualize a derivation by stating the conclusion
+that you are going to derive. Show statements can also be used within the 
+derivation of another statement when one is unable to proceed in another
+way. 
+Example:
+Q->(~R). ~P->R C: ~P->~Q
+0: Show ~P->~Q
+1: ASS CD: ~P
+2:  Show ~Q
+3:  ASS ID: Q
+4:  MP PR1 3: ~R
+5:  MP 1 PR2: R
+6:  ID 4 5: ~Q
+7: CD 6
+Command: Show [Premise]
+Show C (to automatically show argument conclusion)
+
 Direct Derivation
 A direct derivation command is invoked once you have the premise that you are
 intending to derive.
@@ -23,10 +41,23 @@ Show Q
 ASS ID: ~Q
 MP PR1 PR2: Q
 ID ~Q Q
-
 Command: ASS ID
 ID [Premise]
 
+Assume Conditional Derivation
+Conditional derivation is used when the conclusion that you are trying to
+show is a conditional, and a DD or ID will not work. You can type ASS CD to
+get an instantiation of the anticedent to the conditional, and then you must
+show the consequent.
+Example:
+P->R. R->Q. C: P->Q
+0: Show P->Q
+1: ASS CD: P
+2: MP 1 PR1: R
+3: MP 2 PR2: Q
+4: CD 3
+Command: ASS CD
+CD [Premise]
 
 
 Modus Ponens

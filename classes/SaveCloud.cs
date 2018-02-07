@@ -328,11 +328,12 @@ namespace Logic2018
 			return amount;
 		}
 
-		public string[] GetArgumentDisplay()
+		public string[] GetArgumentDisplay(int start, int finish)
 		{
-			var result = new string[GetArgumentListLength()];
+			finish++;
+			var result = new string[(finish)-start];
 			
-			var query = "SELECT * FROM argument_display;";
+			var query = "SELECT * FROM argument_display WHERE number >= "+start+" && number <= "+finish+";";
 			if (this.OpenConnection() == true)
 			{	
 				 
@@ -341,7 +342,6 @@ namespace Logic2018
 				var counter = 0;
 				while(rdr.Read())
 				{
-					
 					var derivation = (string)rdr["derivation"];
 					result[counter] = derivation;
 					counter++;
