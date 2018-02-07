@@ -24,21 +24,13 @@ namespace Logic2018
             var testPremise = problemConstructor.MakeCustom(testingCommand);
             Console.WriteLine(testPremise.GetPremise());*/
 
-            //Print introduction.
-            using (StreamReader sr = new StreamReader("textFiles/Intro.txt"))
-            {
-                string line;
-                while ((line = sr.ReadLine()) != null) 
-                {
-                    Console.WriteLine(line);
-                }
-            }
+            
             InitialLoop:
             var initialInt = 0;
 
             if (!saveCloud.CheckConnection())
             {
-                goto MainLoop;
+                goto WorkingWithConditionals;
             }
             
             Console.WriteLine("Choose from the following options:");
@@ -89,8 +81,52 @@ namespace Logic2018
                     goto InitialLoop;
             }
 
+            using (StreamReader sr = new StreamReader("textFiles/Intro.txt"))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null) 
+                {
+                    Console.WriteLine(line);
+                }
+            }
+
+            MainMenu:
+            while (stillRunning)
+            {
+                Console.WriteLine("Choose from the following menu options:");
+                Console.WriteLine("1. Tutorial");
+                Console.WriteLine("2. Problem set 1 (Working with Conditionals)");
+                int mainChoice = 0;
+                var mainInput = "";
+                try
+                {
+                    mainInput = Console.ReadLine();
+                    mainChoice = Convert.ToInt32(mainInput);
+                }
+                catch (Exception)
+                {
+                    if (mainInput == "exit") stillRunning = false;
+                    else 
+                    {
+                        Console.WriteLine("That is not a valid choice. Try Again");
+                        goto MainMenu;
+                    }
+                }
+                switch (mainChoice)
+                {
+                    case 1:
+                        var tutorial = new Tutorial(1);
+                        goto MainMenu;
+                    case 2:
+                        goto WorkingWithConditionals;
+                    default:
+                        Console.WriteLine("Invalid choice. Try again.");
+                        goto MainMenu;
+                }
+            }
+
             //Main loop.
-            MainLoop:
+            WorkingWithConditionals:
             while (stillRunning)
             {
                 var show = new Show();
@@ -102,11 +138,13 @@ namespace Logic2018
 
                 Loop1:
                 var argumentDisplay = saveCloud.GetArgumentDisplay();
-				for (var i = 0; i < saveCloud.GetArgumentListLength(); i++)
+                var upTo = saveCloud.GetArgumentListLength();
+				for (var i = 0; i < upTo; i++)
 				{
                     if (solved[i] == true) Console.WriteLine(i+": "+argumentDisplay[i]+" (Solved)");
                     else Console.WriteLine(i+": "+argumentDisplay[i]);
 				}
+                Console.Write("Choice:");
                 var choice = Console.ReadLine();
                 try 
                 {
@@ -130,8 +168,7 @@ namespace Logic2018
 							}
 							goto Loop1;
                         case "exit":
-                            stillRunning = false;
-                            goto MainLoop;
+                            goto MainMenu;
                         case "save":
                             using (BinaryWriter writer = new BinaryWriter(File.Open("saves/save.dat",FileMode.Create)))
                             {
@@ -140,7 +177,7 @@ namespace Logic2018
                                     writer.Write(solved[i]);
                                 }
                             }
-                            goto MainLoop;
+                            goto WorkingWithConditionals;
                         
                         case "load":
 							if (File.Exists("saves/save.dat"))
@@ -153,15 +190,10 @@ namespace Logic2018
 									}
 								}
 							}
-                            goto MainLoop;
-
-                        case "tutorial":
-                            var tutorial = new Tutorial(1);
-                            goto MainLoop;
-
+                            goto WorkingWithConditionals;
                         case "make-argument":
                             saveCloud.InsertArgument();
-                            goto MainLoop;
+                            goto WorkingWithConditionals;
                         default:
 							Console.WriteLine("That is not a valid choice. Try again.");
                             Console.WriteLine(e); //testing

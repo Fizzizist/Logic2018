@@ -37,11 +37,11 @@ is one instantiation of MP. To do this I can type the command
 'MP PR1 PR2' or 'MP PR2 PR1'
 This will indicate that I intend to use MP rule on the first and second
 premises of the argument. Go ahead and try this command.
+
+PR1: P->Q PR2: P C: Q
 Show Q
 
 
-Show Q
-0: Q
 
 As you can see the instantiation of the MP rule gives us Q. This also happens
 to be the exact proposition that we are attemping to derive.
@@ -50,5 +50,17 @@ To finish the derivation, we simply have to state that we have solved this
 through direct derivation by inputting the DD command. So let's finish the
 derivation by typeing 'DD 0'.
 
+PR1: P->Q PR2: P C: Q
 Show Q
 0: Q 
+
+
+
+Congratulations, you have solved your first derivation. Direct derivations like
+these are just one way to show the validity of an argument. There is also
+inderect derivations (ID) and Conditional derivations (CD) which will be covered
+in the next few tutorials. Before moving on, you can try to practice DD more on
+the Working with Conditionals problem set. See how many you can solve by just
+using DD and the simplest rules of MP and MT. For more info on MT, type 'help'
+while you are solving a derivation to view documentation for all of the available
+rules.

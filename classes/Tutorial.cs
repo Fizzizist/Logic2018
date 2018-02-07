@@ -6,7 +6,6 @@ namespace Logic2018
     {
         public Tutorial(int part)
         {
-            
             switch (part)
             {
                 case 1:
@@ -42,11 +41,11 @@ namespace Logic2018
                         {
                             string line;
                             var count = 0;
-                            while (count < 40) 
+                            while (count < 42) 
                             {
                                 line = sr.ReadLine();
                                 if(count>=21)
-                                {Console.WriteLine(line);
+                                {
                                     Console.WriteLine(line);
                                 }
                                 count++;
@@ -90,6 +89,24 @@ namespace Logic2018
                                 {
 							        Console.WriteLine("Invalid input, please follow the tutorial or type 'exit'");
 							        goto Loop3;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Solved!");
+                                using (StreamReader sr = new StreamReader("textFiles/tutorial.txt"))
+                                {
+                                    string line;
+                                    var count = 0;
+                                    while (count < 66) 
+                                    {
+                                        line = sr.ReadLine();
+                                        if(count>=57)
+                                        {
+                                            Console.WriteLine(line);
+                                        }
+                                        count++;
+                                    }
                                 }
                             }
                         }
