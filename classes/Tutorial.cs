@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 namespace Logic2018
 {
     public class Tutorial
@@ -114,6 +115,7 @@ namespace Logic2018
                     break;
                     //End of Tutorial 1
                 case 2:
+                    Tut2Loop1:
                     using (StreamReader sr = new StreamReader("textFiles/tutorial.txt"))
                     {
                         string line;
@@ -138,13 +140,82 @@ namespace Logic2018
                         else
                         {
 							Console.WriteLine("Invalid input, please follow the tutorial or type 'exit'");
-							goto Loop1;
+							goto Tut2Loop1;
                         }
                     }
                     else
                     {
-                        
+                        Tut2Loop2:
+                        using (StreamReader sr = new StreamReader("textFiles/tutorial.txt"))
+                        {
+                            string line;
+                            var count = 0;
+                            while (count < 94) 
+                            {
+                                line = sr.ReadLine();
+                                if(count>=76)
+                                {
+                                    Console.WriteLine(line);
+                                }
+                                count++;
+                            }
+                        }
+                        Console.WriteLine(problem2.argument.GetArgument());
+                        Console.WriteLine("Show ~R");
+                        Console.Write("Command:");
+                        var tokens5 = Console.ReadLine().Split(' ');
+                        if (tokens5[0]!="ASS"||tokens5[1]!="ID"||tokens5.Length!=2) 
+                        {
+                            if (tokens5[0] == "exit") break;
+                            else
+                            {
+							    Console.WriteLine("Invalid input, please follow the tutorial or type 'exit'");
+							    goto Tut2Loop2;
+                            }
+                        }
+                        else
+                        {
+                            using (StreamReader sr = new StreamReader("textFiles/tutorial.txt"))
+                            {
+                                string line;
+                                var count = 0;
+                                while (count < 102) 
+                                {
+                                    line = sr.ReadLine();
+                                    if(count>=94)
+                                    {
+                                        Console.WriteLine(line);
+                                    }
+                                    count++;
+                                }
+                            }
+                            var IDShow = new Show();
+                            IDShow.SetAssumeCounter(1);
+                            var IDInv = new List<Premise>();
+                            IDInv.Add(problem2.MakeCustom("R"));
+                            if (IDShow.ShowPremise(problem2.argument,problem2.argument.conclusion,IDInv))
+                            {
+                                using (StreamReader sr = new StreamReader("textFiles/tutorial.txt"))
+                                {
+                                    string line;
+                                    var count = 0;
+                                    while (count < 111) 
+                                    {
+                                        line = sr.ReadLine();
+                                        if(count>=104)
+                                        {
+                                            Console.WriteLine(line);
+                                        }
+                                        count++;
+                                    }
+                                }
+                                break;
+                            }
+                            else break;
+                        }
                     }
+                    //End of Tutorial 2
+                
             }
         }
     }

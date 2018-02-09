@@ -339,5 +339,9 @@ namespace Logic2018
 			}
             return premises;
         }
+
+		public void SetAssumeCounter(int a){
+			assumeCounter = a;
+		}
     }
 }

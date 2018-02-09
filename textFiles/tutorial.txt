@@ -74,3 +74,37 @@ R->Q. R->~Q C: ~R
 
 Let us first perform our usual 'Show C' or 'Show ~R' command to get started.
 
+
+So as we can see, if we try to perform a rule such as MP or MT right now, we will
+get nowhere because all that we have currently is two conditional premises with
+no atomics. In order to get something that we can work with we must 'Assume' something.
+Think about an Assume statement as say "assume for the sake of the argument". 
+Of course, you can't just assume anything, you have to assume something that will
+result in a productive logical outcome. So if I want to show ~R, a good assume
+statement is to assume R, and then show a contradiction when R exists, proving
+that ~R must be the case instead. 
+
+For example, if I wanted to prove that my cat was alive I could say something like
+"well let us assume that the cat is dead. If so, the cat would not be breathing.
+The cat is breathing. Since the cat cannot be breathing and not breathing, the cat
+must be alive."
+
+Let's see how we can use the same form of argument symbolically. Try typing the 
+command 'ASS ID' which stands for 'Assume Indirect Derivation':
+
+
+The 'ASS ID' command in this case yeilds us R which we can now use to find a 
+contradiction which will allow us to finish the ID and solve the derivation.
+
+Now go ahead and attempt to solve the derivation by using MP or MT rules. Once
+you have two contradicting premises, just use the command ID [Premise] [Premise]
+to finish the deivation.
+
+
+Solved!
+
+Congratulations! You have successfully solved your first indirect derivation.
+ID is extemely useful when getting into harder more complex dervations. 
+Go ahead and try using the 'ASS ID' command to solve more derivation from
+the first problem set, or go on to the next tutorial where you can learn about
+conditional derivations, and using nested Show statements.

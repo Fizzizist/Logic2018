@@ -116,7 +116,7 @@ namespace Logic2018
                 {
                     case 1:
                         TutorialMenu:
-                        Console.WriteLine("Choose a tutorial:");
+                        Console.WriteLine("Choose a tutorial, or type 'exit' to return to the main menu:");
                         Console.WriteLine("1. The Very Basics (Direct Derivations)");
                         Console.WriteLine("2. Indirect Derivations");
                         Console.WriteLine("3. Conditional Derivations and extra Show statements");
@@ -141,13 +141,13 @@ namespace Logic2018
                         {
                             case 1:
                                 tutorial = new Tutorial(1);
-                                goto TutorialMenu;
+                                goto MainMenu;
                             case 2:
                                 tutorial = new Tutorial(2);
-                                goto TutorialMenu;
+                                goto MainMenu;
                             case 3:
                                 tutorial = new Tutorial(3);
-                                goto TutorialMenu;
+                                goto MainMenu;
                             default:
                                 Console.WriteLine("That is not a valid choice. Try Again or type 'exit' to go to main menu.");
                                 goto TutorialMenu;
@@ -205,28 +205,7 @@ namespace Logic2018
 							goto Loop1;
                         case "exit":
                             goto MainMenu;
-                        case "save":
-                            using (BinaryWriter writer = new BinaryWriter(File.Open("saves/save.dat",FileMode.Create)))
-                            {
-                                for (var i = 0; i < 5;i++)
-                                {
-                                    writer.Write(solved[i]);
-                                }
-                            }
-                            goto WorkingWithConditionals;
                         
-                        case "load":
-							if (File.Exists("saves/save.dat"))
-							{
-								using (BinaryReader reader = new BinaryReader(File.Open("saves/save.dat", FileMode.Open)))
-								{
-									for (var i = 0; i < 5; i++)
-									{
-										solved[i] = reader.ReadBoolean();
-									}
-								}
-							}
-                            goto WorkingWithConditionals;
                         case "make-argument":
                             saveCloud.InsertArgument();
                             goto WorkingWithConditionals;
