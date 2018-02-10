@@ -16,6 +16,7 @@ namespace Logic2018
             var solved = new bool[saveCloud.GetArgumentListLength()];
             ProblemConstructor problemConstructor;
             var mainInventory = new List<Premise>();
+            var writer = new Writer();
 
             //Testing
             /*Console.WriteLine("Premise:");
@@ -81,14 +82,7 @@ namespace Logic2018
                     goto InitialLoop;
             }
 
-            using (StreamReader sr = new StreamReader("textFiles/Intro.txt"))
-            {
-                string line;
-                while ((line = sr.ReadLine()) != null) 
-                {
-                    Console.WriteLine(line);
-                }
-            }
+            writer.WriteWholeFile("textFiles/Intro.txt");
 
             MainMenu:
             while (stillRunning)
@@ -194,14 +188,7 @@ namespace Logic2018
                     switch (choice)
                     {
                         case "help":
-							using (StreamReader sr = new StreamReader("textFiles/helpShow.txt"))
-							{
-								string line;
-								while ((line = sr.ReadLine()) != null)
-								{
-									Console.WriteLine(line);
-								}
-							}
+							writer.WriteWholeFile("textFiles/helpShow.txt");
 							goto Loop1;
                         case "exit":
                             goto MainMenu;
@@ -224,14 +211,7 @@ namespace Logic2018
                 switch (command)
                 {
 					case "help":
-						using (StreamReader sr = new StreamReader("textFiles/helpShow.txt"))
-						{
-							string line;
-							while ((line = sr.ReadLine()) != null)
-							{
-								Console.WriteLine(line);
-							}
-						}
+						writer.WriteWholeFile("textFiles/helpShow.txt");
 						break;
                     case "Show":
                         if (!show.CheckTokenLength(tokens,2)) 

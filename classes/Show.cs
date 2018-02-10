@@ -9,7 +9,7 @@ namespace Logic2018
         private List<Premise> argumentPremises = new List<Premise>();
         private Rules rules = new Rules();
 		private int assumeCounter;
-		
+		private Writer writer = new Writer();
 
         public Show()
         {
@@ -42,14 +42,7 @@ namespace Logic2018
 				switch (command)
 				{
 					case "help":
-						using (StreamReader sr = new StreamReader("textFiles/helpShow.txt"))
-						{
-							string line;
-							while ((line = sr.ReadLine()) != null)
-							{
-								Console.WriteLine(line);
-							}
-						}
+						writer.WriteWholeFile("textFiles/helpShow.txt");
 						goto MainShow;
 
                     case "exit":
@@ -342,6 +335,11 @@ namespace Logic2018
 
 		public void SetAssumeCounter(int a){
 			assumeCounter = a;
+		}
+
+		public void ClearInventory()
+		{
+			inventory.Clear();
 		}
     }
 }
