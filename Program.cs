@@ -17,7 +17,7 @@ namespace Logic2018
             ProblemConstructor problemConstructor;
             var mainInventory = new List<Premise>();
             var writer = new Writer();
-
+	    Console.OutputEncoding = System.Text.Encoding.UTF8;
             //Testing
             /*Console.WriteLine("Premise:");
             var testingCommand = Console.ReadLine();
