@@ -315,8 +315,8 @@ namespace Logic2018
 
 		public int GetArgumentListLength()
 		{
-			var amount = 0;
 			var query = "SELECT COUNT(*) FROM argument_display;";
+			var amount = 0;
 			if (this.OpenConnection() == true)
 			{	
 				var cmd = new MySqlCommand(query, connection);

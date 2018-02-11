@@ -1,5 +1,5 @@
-Welcome to Logic2018 alpha version 0.0.1!
-This is meant as a formal logic derivation simulator.
-The User invokes logical rules such as Modus Ponens to arguments in order to
-proved their validity.
+Welcome to Logic2018 Alpha v0.0.1!
+This is formal logic derivation simulator.
+The User invokes logical rules to arguments in order to
+prove their validity.
 Type 'exit' at any time to quit.

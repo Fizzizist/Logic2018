@@ -298,7 +298,7 @@ namespace Logic2018
         {
             if (tokens.Length != desired)
             {
-                Console.WriteLine("Bad input. type 'help' for more information or try again.");
+                Console.WriteLine("Bad input. Try again.");
                 return false;
             }
             else

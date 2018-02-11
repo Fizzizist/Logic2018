@@ -26,7 +26,7 @@ Indirect Derivation (ID)
 Conditional Derivation (CD)
 
 Since this argument is so simple, it suffices to use DD to derive Q.
-To do this, all we need to do is produce Q and then instanctiate the DD Rule.
+To do this, all we need to do is produce Q and then instantiate the DD Rule.
 
 We currently have two premises to work with: P->Q and P.
 We currently only have 1 rule at our disposal: Modus Ponens (MP)
@@ -43,12 +43,12 @@ Show Q
 
 
 
-As you can see the instantiation of the MP rule gives us Q. This also happens
+As you can see, the instantiation of the MP rule gives us Q. This also happens
 to be the exact proposition that we are attemping to derive.
 
 To finish the derivation, we simply have to state that we have solved this 
 through direct derivation by inputting the DD command. So let's finish the
-derivation by typeing 'DD 0'.
+derivation by typing 'DD 0'.
 
 PR1: P->Q PR2: P C: Q
 Show Q
@@ -58,9 +58,9 @@ Show Q
 
 Congratulations, you have solved your first derivation. Direct derivations like
 these are just one way to show the validity of an argument. There is also
-inderect derivations (ID) and Conditional derivations (CD) which will be covered
+indirect derivations (ID) and conditional derivations (CD) which will be covered
 in the next few tutorials. Before moving on, you can try to practice DD more on
-the Working with Conditionals problem set. See how many you can solve by just
+the 'Working with Conditionals' problem set. See how many you can solve by just
 using DD and the simplest rules of MP and MT. For more info on MT, type 'help'
 while you are solving a derivation to view documentation for all of the available
 rules.
@@ -77,8 +77,8 @@ Let us first perform our usual 'Show C' or 'Show ~R' command to get started.
 
 So as we can see, if we try to perform a rule such as MP or MT right now, we will
 get nowhere because all that we have currently is two conditional premises with
-no atomics. In order to get something that we can work with we must 'Assume' something.
-Think about an Assume statement as say "assume for the sake of the argument". 
+no atomics. In order to get something that we can work with, we must 'Assume' something.
+Think about an Assume statement as saying "assume for the sake of the argument". 
 Of course, you can't just assume anything, you have to assume something that will
 result in a productive logical outcome. So if I want to show ~R, a good assume
 statement is to assume R, and then show a contradiction when R exists, proving
@@ -93,8 +93,8 @@ Let's see how we can use the same form of argument symbolically. Try typing the
 command 'ASS ID' which stands for 'Assume Indirect Derivation':
 
 
-The 'ASS ID' command in this case yeilds us R which we can now use to find a 
-contradiction which will allow us to finish the ID and solve the derivation.
+The 'ASS ID' command in this case yeilds us 'R' which we can now use to find a 
+contradiction, which will allow us to finish the ID, and solve the derivation.
 
 Now go ahead and attempt to solve the derivation by using MP or MT rules. Once
 you have two contradicting premises, just use the command ID [Premise] [Premise]
@@ -104,7 +104,7 @@ to finish the deivation.
 Solved!
 
 Congratulations! You have successfully solved your first indirect derivation.
-ID is extemely useful when getting into harder more complex dervations. 
+ID is extemely useful when getting into harder and more complex dervations. 
 Go ahead and try using the 'ASS ID' command to solve more derivation from
 the first problem set, or go on to the next tutorial where you can learn about
 conditional derivations, and using nested Show statements.
@@ -118,7 +118,7 @@ the conditional derivation (CD). CD is used when the conclusion that you are
 trying to show is a conditional, and the easiest way to solve it is to first
 assume the anticedent and then prove the consequent using the anticedent.
 
-So for instance if I wanted to argue again that 'if my cat is breathing then
+So for instance if I wanted to argue something like 'if my cat is breathing then
 it is alive' I might prove this by saying "Let's assume that my cat is breathing.
 If something is breathing then it has a heart-beat. If something has a heart-beat,
 then it must be alive. Therefore, Assuming that my cat is breathing, it must have
@@ -158,8 +158,8 @@ statement per show statement, so it might be best to use ASS ID when showing Q.
 Once you have solved for Q you will be given Q as a premise to use and be back 
 to Show P->Q, it is then just a matter of using the CD command on Q.
 
-Remember that in addition to MP and MT you also have DN rules which allow you
-to add and remove double negations. This will also come in handy in this
+Remember that in addition to MP and MT you also have DN [Premise] rules which allow 
+you to add and remove double negations. This will also come in handy in this
 derivation.
 
 So start by typing Show Q and go from there.
