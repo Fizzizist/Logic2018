@@ -16,6 +16,7 @@ namespace Logic2018
                     writer.Write(0,18,"textFiles/tutorial.txt");
                     var problem = new ProblemConstructor(0);
                     var argument1 = problem.argument;
+                    Console.WriteLine("*Note that PR1, PR2, etc. indicate available premises.");
                     Console.WriteLine(argument1.GetArgument());
                     Loop1:
                     Console.Write("Command:");

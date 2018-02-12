@@ -14,7 +14,7 @@ where P is 'that is is raining' and Q is 'that the ground is wet'.
 We can show the logical validity of this argument using a derivation.
 Each derivation begins with a 'Show' statement, so first we can either
 type 'Show Q' or 'Show C' to indicate that we are about to prove
-the conclusion.
+the conclusion. 
 
 
 

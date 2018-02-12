@@ -13,7 +13,6 @@ namespace Logic2018
             string userID = null;
             var stillRunning = true;
             var saveCloud = new SaveCloud();
-            var solved = new bool[saveCloud.GetArgumentListLength()];
             ProblemConstructor problemConstructor;
             var mainInventory = new List<Premise>();
             var writer = new Writer();
@@ -24,7 +23,18 @@ namespace Logic2018
             problemConstructor = new ProblemConstructor();
             var testPremise = problemConstructor.MakeCustom(testingCommand);
             Console.WriteLine(testPremise.GetPremise());*/
-
+            if (saveCloud.CheckConnection())
+            {
+                
+            }
+            else
+            {
+                Console.WriteLine("It appears that there is a problem with the internet connection.");
+                Console.WriteLine("This program uses the internet to generate problem sets.");
+                Console.WriteLine("Please reconnect to the internet before playing.");
+                stillRunning = false;
+                goto MainMenu;
+            }
             
             InitialLoop:
             var initialInt = 0;
@@ -64,8 +74,10 @@ namespace Logic2018
                     {
                         var key = System.Console.ReadKey(true);
                         if (key.Key == ConsoleKey.Enter)
+                            //Console.WriteLine(' ');
                             break;
                         password += key.KeyChar;
+                        Console.Write('*');
                     }
                     if (saveCloud.UserAuthenticate(userID, password))
                     {
@@ -81,7 +93,7 @@ namespace Logic2018
                     Console.WriteLine("Invalid response. Try again.");
                     goto InitialLoop;
             }
-
+            writer.AddTenBlankLines();
             writer.WriteWholeFile("textFiles/Intro.txt");
 
             MainMenu:
@@ -162,12 +174,12 @@ namespace Logic2018
                 var show = new Show();
                 Argument currentArgument;
 
-                solved = saveCloud.GetSolved(userID, saveCloud.GetArgumentListLength());
+                var solved = saveCloud.GetSolved(userID, saveCloud.GetArgumentListLength(1));
 
                 Console.WriteLine("Choose an argument to derive:");
 
                 Loop1:
-                var argumentDisplay = saveCloud.GetArgumentDisplay(0,44);
+                var argumentDisplay = saveCloud.GetArgumentDisplay(1);
                 var upTo = 44;
 				for (var i = 0; i <= upTo; i++)
 				{
@@ -194,7 +206,9 @@ namespace Logic2018
                             goto MainMenu;
                         
                         case "make-argument":
-                            saveCloud.InsertArgument();
+                            Console.WriteLine("Into which problem Set?");
+                            Console.Write("Choice:");
+                            saveCloud.InsertArgument(Convert.ToInt32(Console.ReadLine()));
                             goto WorkingWithConditionals;
                         default:
 							Console.WriteLine("That is not a valid choice. Try again.");
@@ -214,6 +228,7 @@ namespace Logic2018
 						writer.WriteWholeFile("textFiles/helpShow.txt");
 						break;
                     case "Show":
+                        Show:
                         if (!show.CheckTokenLength(tokens,2)) 
                         {
                             Console.WriteLine("Show statement must be followed by one command.");
@@ -221,7 +236,7 @@ namespace Logic2018
                         }
                         switch (tokens[1])
                         {
-                            case "C":
+                            case "C": case "c":
                                 if (show.ShowPremise(currentArgument, currentArgument.conclusion, mainInventory))
                                 {
                                     Console.WriteLine("Solved!");
@@ -260,6 +275,7 @@ namespace Logic2018
                         }
                         break;
                     default:
+                        if (command.Equals("show", StringComparison.CurrentCultureIgnoreCase)) goto Show;
                         Console.WriteLine("Unrecognized input. type 'help' for more information.");
                         break;
                 }

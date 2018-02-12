@@ -45,7 +45,6 @@ namespace Logic2018
             catch(MySqlException)
             {
                 Console.WriteLine("There is currently a problem connecting to the server.");
-				Console.WriteLine("Type 'save' to save locally");
                 return false;
             }
 		}
@@ -181,6 +180,7 @@ namespace Logic2018
 
 		public void CreateNewUser()
 		{
+			Retry:
 			Console.Write("type new UserID:");
 			uid = Console.ReadLine();
 			string password = null;
@@ -194,6 +194,7 @@ namespace Logic2018
                 if (key.Key == ConsoleKey.Enter)
                     break;
                 password1 += key.KeyChar;
+				Console.Write('*');
             }
 
 			System.Console.Write("Retype new password: ");
@@ -204,6 +205,7 @@ namespace Logic2018
                 if (key.Key == ConsoleKey.Enter)
                     break;
                 password2 += key.KeyChar;
+				Console.Write('*');
             }
 
 			if (password1==password2)
@@ -219,22 +221,34 @@ namespace Logic2018
 			var query1 = "INSERT INTO user (user_id, password) VALUES ('"+uid+"', sha1('"+password+"'));";
 			var query2 = "CREATE TABLE savedata_"+uid+"(derivation INT, solved BOOL);";
 
-			if (this.OpenConnection() == true)
+			try
 			{
+				if (this.OpenConnection() == true)
+				{
 				
-				//create command and assign the query and connection from the constructor
-				var cmd1 = new MySqlCommand(query1, connection);
-				var cmd2 = new MySqlCommand(query2, connection);
+					//create command and assign the query and connection from the constructor
+					var cmd1 = new MySqlCommand(query1, connection);
+					var cmd2 = new MySqlCommand(query2, connection);
 
-				//Execute command
-				cmd1.ExecuteNonQuery();
-				cmd2.ExecuteNonQuery();	
+					//Execute command
+					cmd1.ExecuteNonQuery();
+					cmd2.ExecuteNonQuery();	
 
-				//close connection
-				this.CloseConnection();
+					//close connection
+					this.CloseConnection();
+				}
 			}
-
-			this.CreateSaveData(uid, this.GetArgumentListLength());
+			catch (MySqlException)
+			{
+				Console.WriteLine(' ');
+				Console.WriteLine("It seems that that user ID is already taken. Try something else.");
+				goto Retry;
+			}
+			for (var i = 1;i<=Constants.NumberOfProblemSets;i++)
+			{
+				this.CreateSaveData(uid, this.GetArgumentListLength(i));	
+			}
+			
 			
 		}
 
@@ -264,37 +278,40 @@ namespace Logic2018
 
 		public void UserTableCheck(string id)
 		{
-			var expectedInt = this.GetArgumentListLength();
-			var query1 = "SELECT COUNT(*) FROM savedata_"+id+";";
+			for (var i=1;i<=Constants.NumberOfProblemSets;i++)
+			{
+				var expectedInt = this.GetArgumentListLength(i);
+				var query1 = "SELECT COUNT(*) FROM savedata_"+id+"_"+i+";";
 			
-			var result = 0;
-			QueryLoop:
-			if (this.OpenConnection() == true)
-			{
-				//create command and assign the query and connection from the constructor
-				var cmd = new MySqlCommand(query1, connection);
-
-				//Execute command
-				result = Convert.ToInt32(cmd.ExecuteScalar());	
-
-				//close connection
-				this.CloseConnection();
-			}
-			if (result<expectedInt)
-			{
-				var query2 = "INSERT INTO savedata_"+id+" (derivation,solved) VALUES("+Convert.ToString(result)+",false);";
+				var result = 0;
+				QueryLoop:
 				if (this.OpenConnection() == true)
-				{	
+				{
 					//create command and assign the query and connection from the constructor
-					var cmd = new MySqlCommand(query2, connection);
+					var cmd = new MySqlCommand(query1, connection);
 
 					//Execute command
-					cmd.ExecuteNonQuery();	
+					result = Convert.ToInt32(cmd.ExecuteScalar());	
 
-					//close connection
+				//close connection
 					this.CloseConnection();
 				}
-				goto QueryLoop;
+				if (result<expectedInt)
+				{
+					var query2 = "INSERT INTO savedata_"+id+"_"+i+" (derivation,solved) VALUES("+Convert.ToString(result)+",false);";
+					if (this.OpenConnection() == true)
+					{	
+						//create command and assign the query and connection from the constructor
+						var cmd = new MySqlCommand(query2, connection);
+
+						//Execute command
+						cmd.ExecuteNonQuery();	
+
+						//close connection
+						this.CloseConnection();
+					}
+					goto QueryLoop;
+				}
 			}
 		}
 
@@ -313,9 +330,9 @@ namespace Logic2018
 			return false;
 		}
 
-		public int GetArgumentListLength()
+		public int GetArgumentListLength(int table)
 		{
-			var query = "SELECT COUNT(*) FROM argument_display;";
+			var query = "SELECT COUNT(*) FROM argument_display_"+table+";";
 			var amount = 0;
 			if (this.OpenConnection() == true)
 			{	
@@ -328,12 +345,11 @@ namespace Logic2018
 			return amount;
 		}
 
-		public string[] GetArgumentDisplay(int start, int finish)
+		public string[] GetArgumentDisplay(int table)
 		{
-			finish++;
-			var result = new string[(finish)-start];
 			
-			var query = "SELECT * FROM argument_display WHERE number >= "+start+" && number <= "+finish+";";
+			var result = new string[this.GetArgumentListLength(table)];
+			var query = "SELECT * FROM argument_display_"+table+";";
 			if (this.OpenConnection() == true)
 			{	
 				 
@@ -366,7 +382,7 @@ namespace Logic2018
 			return result;
 		}
 		//Testing
-		public void InsertArgument()
+		public void InsertArgument(int table)
 		{
 			Loop:
 			Console.Write("Argument:");
@@ -379,8 +395,8 @@ namespace Logic2018
 				Console.WriteLine("Bad Syntax, try again.");
 				goto Loop;
 			}
-			string query1 = "INSERT INTO argument_display VALUES("+GetArgumentListLength()+", N'"+newArgument.GetArgumentDisplay()+"');";
-			string query2 = "INSERT INTO argument_constructor VALUES("+GetArgumentListLength()+", '"+input+"');";
+			string query1 = "INSERT INTO argument_display_"+table+" VALUES("+GetArgumentListLength(table)+", N'"+newArgument.GetArgumentDisplay()+"');";
+			string query2 = "INSERT INTO argument_constructor_"+table+" VALUES("+GetArgumentListLength(table)+", '"+input+"');";
 			
 			if (this.OpenConnection()==true)
 			{

@@ -145,6 +145,7 @@ namespace Logic2018
 						break;
 
 					case "Show":
+						Show:
 						if (!this.CheckTokenLength(tokens, 2)) break;
 						var problemConstructor = new ProblemConstructor();
 						var newPremise = problemConstructor.MakeCustom(tokens[1]);
@@ -275,6 +276,7 @@ namespace Logic2018
 							break;
 						}
 					default:
+						if (command.Equals("show", StringComparison.CurrentCultureIgnoreCase)) goto Show;
 						Console.WriteLine("bad input: enter 'help' for more information.");
 						break;
 				}
