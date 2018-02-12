@@ -136,9 +136,9 @@ namespace Logic2018
 			return returnBool;
 		}
 
-		public void MakeSolvedTrue(string id, int entry)
+		public void MakeSolvedTrue(int table, string id, int entry)
 		{
-			var query = "UPDATE savedata_"+id+" SET solved = true WHERE derivation = "+entry;
+			var query = "UPDATE savedata_"+id+"_"+table+" SET solved = true WHERE derivation = "+entry;
 
 			if (this.OpenConnection() == true)
 			{
@@ -372,10 +372,10 @@ namespace Logic2018
 			return result;
 		}
 
-		public string GetArgumentConstructorRow(int num)
+		public string GetArgumentConstructorRow(int table, int num)
 		{
 			var result = "";
-			var query = "SELECT derivation FROM argument_constructor where number = "+num+";";
+			var query = "SELECT derivation FROM argument_constructor_"+table+" where number = "+num+";";
 			if (this.OpenConnection() == true)
 			{	
 				var cmd = new MySqlCommand(query, connection);

@@ -13,9 +13,9 @@ namespace Logic2018
             
         }
 
-        public ProblemConstructor(int choice)
+        public ProblemConstructor(int table, int choice)
         {
-            argument = MakeCustomArgument(saveCloud.GetArgumentConstructorRow(choice));
+            argument = MakeCustomArgument(saveCloud.GetArgumentConstructorRow(table, choice));
         }
 
         //Parses the input string and makes nested Premises out of string.

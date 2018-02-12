@@ -38,9 +38,6 @@ namespace Logic2018
                 try 
                 {
                     choiceInt = Convert.ToInt32(choice);
-                    problemConstructor = new ProblemConstructor(choiceInt);
-                    currentArgument = problemConstructor.argument;
-                    Console.WriteLine(currentArgument.GetArgument());
                 }
                 catch(Exception e)
                 {
@@ -65,7 +62,7 @@ namespace Logic2018
                     }
                 }
 
-                problemConstructor = new ProblemConstructor(choiceInt);
+                problemConstructor = new ProblemConstructor(problemSet, choiceInt);
                 currentArgument = problemConstructor.argument;
                 Console.WriteLine(currentArgument.GetArgument());
                 Console.Write("Command: ");
@@ -92,7 +89,8 @@ namespace Logic2018
                                 {
                                     Console.WriteLine("Solved!");
                                     solved[Convert.ToInt32(choice)] = true;
-                                    saveCloud.MakeSolvedTrue(userID, Convert.ToInt32(choice));
+                                    saveCloud.MakeSolvedTrue(problemSet, userID, Convert.ToInt32(choice));
+                                    mainInventory.Clear();
                                     break;
                                 }
                                 else
@@ -113,7 +111,8 @@ namespace Logic2018
                                     {
                                         Console.WriteLine("Solved!");
                                         solved[Convert.ToInt32(choice)] = true;
-                                        saveCloud.MakeSolvedTrue(userID, Convert.ToInt32(choice));
+                                        saveCloud.MakeSolvedTrue(problemSet, userID, Convert.ToInt32(choice));
+                                        mainInventory.Clear();
                                         break;
                                     }
                                     else

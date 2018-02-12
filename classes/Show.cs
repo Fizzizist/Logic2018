@@ -213,6 +213,8 @@ namespace Logic2018
 
 						if (rules.IDCheck(inID[0], inID[1]))
 						{
+							assumeCounter--;
+							inventory.Clear();
                             return true;
 						}
 						else
@@ -229,6 +231,7 @@ namespace Logic2018
                             var temp = Convert.ToInt32(tokens[1]);
                             if (inventory[temp]._Equals(toShow))
 							{
+								inventory.Clear();
                                 return true;
 							}
 							else
@@ -249,6 +252,8 @@ namespace Logic2018
                             var temp = Convert.ToInt32(tokens[1]);
 							if (inventory[temp]._Equals(toShow.cons))
 							{
+								assumeCounter--;
+								inventory.Clear();
 								return true;
 							}
 							else

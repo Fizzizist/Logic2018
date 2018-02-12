@@ -14,7 +14,7 @@ namespace Logic2018
                     var DDSHow = new Show();
                     writer.AddTenBlankLines();
                     writer.Read(0,18,"textFiles/tutorial.txt");
-                    var problem = new ProblemConstructor(0);
+                    var problem = new ProblemConstructor(1, 0);
                     var argument1 = problem.argument;
                     Console.WriteLine("*Note that PR1, PR2, etc. indicate available premises.");
                     Console.WriteLine(argument1.GetArgument());
@@ -73,7 +73,7 @@ namespace Logic2018
                     Tut2Loop1:
                     writer.AddTenBlankLines();
                     writer.Read(67,76,"textFiles/tutorial.txt");
-                    var problem2 = new ProblemConstructor(7);
+                    var problem2 = new ProblemConstructor(1, 7);
                     Console.WriteLine(problem2.argument.GetArgument());
                     Console.Write("Command:");
                     var tokens4 = Console.ReadLine().Split(' ');
@@ -121,7 +121,7 @@ namespace Logic2018
                     //End of Tutorial 2
                 case 3:
                     Tut3Loop1:
-                    var problem3 = new ProblemConstructor(1);
+                    var problem3 = new ProblemConstructor(1, 1);
                     writer.AddTenBlankLines();
                     writer.Read(112,133,"textFiles/tutorial.txt");
                     Console.WriteLine(problem3.argument.GetArgument());
@@ -165,7 +165,7 @@ namespace Logic2018
                             if (IDShow.ShowPremise(problem3.argument,problem3.argument.conclusion,IDInv))
                             {
                                 writer.Read(141,166,"textFiles/tutorial.txt");
-                                var problem3_2 = new ProblemConstructor(13);
+                                var problem3_2 = new ProblemConstructor(1, 13);
                                 IDInv.Clear();
                                 IDShow.ClearInventory();
                                 IDInv.Add(problem3_2.MakeCustom("P"));

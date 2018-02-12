@@ -96,6 +96,7 @@ namespace Logic2018
                 Console.WriteLine("Choose from the following menu options:");
                 Console.WriteLine("1. Tutorials");
                 Console.WriteLine("2. Problem set 1 (Working with Conditionals)");
+                Console.WriteLine("3. Problem Set 2 (Intro to Theorems)");
                 int mainChoice = 0;
                 var mainInput = "";
                 try
@@ -157,8 +158,8 @@ namespace Logic2018
                                 goto TutorialMenu;
 
                         }
-                    case 2:
-                        var problemSet = new ProblemSet(1, userID);
+                    case 2: case 3:
+                        var problemSet = new ProblemSet((mainChoice-1), userID);
                         goto MainMenu;
                     default:
                         Console.WriteLine("Invalid choice. Try again.");
