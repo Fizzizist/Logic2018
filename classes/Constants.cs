@@ -3,6 +3,6 @@ namespace Logic2018
 {
     static class Constants
     {
-        public const int NumberOfProblemSets = 1;
+        public const int NumberOfProblemSets = 2;
     }
 }

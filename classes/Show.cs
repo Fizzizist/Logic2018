@@ -9,7 +9,7 @@ namespace Logic2018
         private List<Premise> argumentPremises = new List<Premise>();
         private Rules rules = new Rules();
 		private int assumeCounter;
-		private Writer writer = new Writer();
+		private Reader writer = new Reader();
 
         public Show()
         {
@@ -42,7 +42,7 @@ namespace Logic2018
 				switch (command)
 				{
 					case "help":
-						writer.WriteWholeFile("textFiles/helpShow.txt");
+						writer.ReadWholeFile("textFiles/helpShow.txt");
 						goto MainShow;
 
                     case "exit":

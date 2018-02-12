@@ -2,15 +2,15 @@ using System;
 using System.IO;
 namespace Logic2018
 {
-    public class Writer
+    public class Reader
     {
         private StreamReader sr;
-        public Writer()
+        public Reader()
         {
             
         }
 
-        public void Write(int from, int to, string filepath)
+        public void Read(int from, int to, string filepath)
         {
             sr = new StreamReader(filepath);
             string line;
@@ -26,7 +26,7 @@ namespace Logic2018
             }
         }
 
-        public void WriteWholeFile(string filepath)
+        public void ReadWholeFile(string filepath)
         {
             sr = new StreamReader(filepath);
             string line;

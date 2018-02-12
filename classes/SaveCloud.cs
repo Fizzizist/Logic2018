@@ -65,12 +65,12 @@ namespace Logic2018
 		}
 
 		//Insert statement
-		public void CreateSaveData(string id, int rows)
+		public void CreateSaveData(int table, string id, int rows)
 		{
             var queries = new string[rows];
 			for (var i=0;i<rows;i++)
 			{
-				queries[i] = "INSERT INTO savedata_"+id+"(derivation, solved) VALUES("+ i + ", false)";
+				queries[i] = "INSERT INTO savedata_"+id+"_"+table+" (derivation, solved) VALUES("+ i + ", false)";
 			}
 		
 			//open connection
@@ -114,13 +114,13 @@ namespace Logic2018
 		}
 
 		//Returns a boolean array of solved problems of the specific user.
-		public bool[] GetSolved(string id, int rows)
+		public bool[] GetSolved(int table, string id, int rows)
 		{
 			var queries = new string[rows];
 			var returnBool = new bool[rows];
 			for (var i=0;i<rows;i++)
 			{
-				queries[i] = "SELECT solved FROM savedata_"+id+" WHERE derivation = "+i;
+				queries[i] = "SELECT solved FROM savedata_"+id+"_"+table+" WHERE derivation = "+i;
 			}
 			
 			if (this.OpenConnection()==true)
@@ -219,8 +219,11 @@ namespace Logic2018
 			}
 
 			var query1 = "INSERT INTO user (user_id, password) VALUES ('"+uid+"', sha1('"+password+"'));";
-			var query2 = "CREATE TABLE savedata_"+uid+"(derivation INT, solved BOOL);";
-
+			var queries = new string[Constants.NumberOfProblemSets];
+			for (var i=0;i<Constants.NumberOfProblemSets;i++)
+			{
+				queries[i] = "CREATE TABLE savedata_"+uid+"_"+(i+1)+" (derivation INT, solved BOOL);";
+			}
 			try
 			{
 				if (this.OpenConnection() == true)
@@ -228,12 +231,14 @@ namespace Logic2018
 				
 					//create command and assign the query and connection from the constructor
 					var cmd1 = new MySqlCommand(query1, connection);
-					var cmd2 = new MySqlCommand(query2, connection);
+					var cmds = new MySqlCommand[Constants.NumberOfProblemSets];
 
-					//Execute command
 					cmd1.ExecuteNonQuery();
-					cmd2.ExecuteNonQuery();	
-
+					for (var i=0;i<Constants.NumberOfProblemSets;i++)
+					{
+						cmds[i] = new MySqlCommand(queries[i],connection);
+						cmds[i].ExecuteNonQuery();
+					}
 					//close connection
 					this.CloseConnection();
 				}
@@ -246,7 +251,7 @@ namespace Logic2018
 			}
 			for (var i = 1;i<=Constants.NumberOfProblemSets;i++)
 			{
-				this.CreateSaveData(uid, this.GetArgumentListLength(i));	
+				this.CreateSaveData(i, uid, this.GetArgumentListLength(i));	
 			}
 			
 			

@@ -9,13 +9,11 @@ namespace Logic2018
         
         static void Main(string[] args)
         {
-            string command;
             string userID = null;
             var stillRunning = true;
             var saveCloud = new SaveCloud();
-            ProblemConstructor problemConstructor;
             var mainInventory = new List<Premise>();
-            var writer = new Writer();
+            var writer = new Reader();
 	        Console.OutputEncoding = System.Text.Encoding.UTF8;
             //Testing
             /*Console.WriteLine("Premise:");
@@ -39,10 +37,6 @@ namespace Logic2018
             InitialLoop:
             var initialInt = 0;
 
-            if (!saveCloud.CheckConnection())
-            {
-                goto WorkingWithConditionals;
-            }
             
             Console.WriteLine("Choose from the following options:");
             Console.WriteLine("1. New User");
@@ -94,7 +88,7 @@ namespace Logic2018
                     goto InitialLoop;
             }
             writer.AddTenBlankLines();
-            writer.WriteWholeFile("textFiles/Intro.txt");
+            writer.ReadWholeFile("textFiles/Intro.txt");
 
             MainMenu:
             while (stillRunning)
@@ -111,7 +105,11 @@ namespace Logic2018
                 }
                 catch (Exception)
                 {
-                    if (mainInput == "exit") stillRunning = false;
+                    if (mainInput == "exit") 
+                    {
+                        stillRunning = false;
+                        goto MainMenu;
+                    }
                     else 
                     {
                         Console.WriteLine("That is not a valid choice. Try Again");
@@ -160,124 +158,11 @@ namespace Logic2018
 
                         }
                     case 2:
-                        goto WorkingWithConditionals;
+                        var problemSet = new ProblemSet(1, userID);
+                        goto MainMenu;
                     default:
                         Console.WriteLine("Invalid choice. Try again.");
                         goto MainMenu;
-                }
-            }
-
-            //Main loop.
-            WorkingWithConditionals:
-            while (stillRunning)
-            {
-                var show = new Show();
-                Argument currentArgument;
-
-                var solved = saveCloud.GetSolved(userID, saveCloud.GetArgumentListLength(1));
-
-                Console.WriteLine("Choose an argument to derive:");
-
-                Loop1:
-                var argumentDisplay = saveCloud.GetArgumentDisplay(1);
-                var upTo = 44;
-				for (var i = 0; i <= upTo; i++)
-				{
-                    if (solved[i] == true) Console.WriteLine(i+": "+argumentDisplay[i]+" (Solved)");
-                    else Console.WriteLine(i+": "+argumentDisplay[i]);
-				}
-                Console.Write("Choice:");
-                var choice = Console.ReadLine();
-                try 
-                {
-                    var choiceInt = Convert.ToInt32(choice);
-                    problemConstructor = new ProblemConstructor(choiceInt);
-                    currentArgument = problemConstructor.argument;
-                    Console.WriteLine(currentArgument.GetArgument());
-                }
-                catch(Exception e)
-                {
-                    switch (choice)
-                    {
-                        case "help":
-							writer.WriteWholeFile("textFiles/helpShow.txt");
-							goto Loop1;
-                        case "exit":
-                            goto MainMenu;
-                        
-                        case "make-argument":
-                            Console.WriteLine("Into which problem Set?");
-                            Console.Write("Choice:");
-                            saveCloud.InsertArgument(Convert.ToInt32(Console.ReadLine()));
-                            goto WorkingWithConditionals;
-                        default:
-							Console.WriteLine("That is not a valid choice. Try again.");
-                            Console.WriteLine(e); //testing
-							goto Loop1;
-                    }
-                }
-
-                Console.Write("Command: ");
-                string[] tokens = Console.ReadLine().Split(' ');
-                command = tokens[0];
-
-                
-                switch (command)
-                {
-					case "help":
-						writer.WriteWholeFile("textFiles/helpShow.txt");
-						break;
-                    case "Show":
-                        Show:
-                        if (!show.CheckTokenLength(tokens,2)) 
-                        {
-                            Console.WriteLine("Show statement must be followed by one command.");
-                            break;
-                        }
-                        switch (tokens[1])
-                        {
-                            case "C": case "c":
-                                if (show.ShowPremise(currentArgument, currentArgument.conclusion, mainInventory))
-                                {
-                                    Console.WriteLine("Solved!");
-                                    solved[Convert.ToInt32(choice)] = true;
-                                    saveCloud.MakeSolvedTrue(userID, Convert.ToInt32(choice));
-                                    break;
-                                }
-                                else
-                                {
-                                    goto MainMenu;
-                                }
-                            default:
-                                Premise custom = problemConstructor.MakeCustom(tokens[1]);
-                                if (custom == null)
-                                {
-                                    Console.WriteLine("Bad Premise. Try again.");
-                                    break;
-                                }
-                                if (show.ShowPremise(currentArgument, custom, mainInventory))
-                                {
-                                    if (custom._Equals(currentArgument.conclusion))
-                                    {
-										Console.WriteLine("Solved!");
-										solved[Convert.ToInt32(choice)] = true;
-                                        saveCloud.MakeSolvedTrue(userID, Convert.ToInt32(choice));
-										break;
-                                    }
-                                    else
-                                    {
-                                        mainInventory.Add(custom);
-                                        Console.WriteLine(custom.GetPremise()+" "+currentArgument.conclusion.GetPremise());
-                                        break;
-                                    }
-                                }
-                                break;
-                        }
-                        break;
-                    default:
-                        if (command.Equals("show", StringComparison.CurrentCultureIgnoreCase)) goto Show;
-                        Console.WriteLine("Unrecognized input. type 'help' for more information.");
-                        break;
                 }
             }
         }
