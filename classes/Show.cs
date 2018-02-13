@@ -48,7 +48,7 @@ namespace Logic2018
                     case "exit":
                         return false;
 					//Modus Ponens
-					case "MP":
+					case "MP": case "mp":
                         var inMP = new Premise[tokens.Length - 1];
 
                         if (!this.CheckTokenLength(tokens, 3)) break;
@@ -71,7 +71,7 @@ namespace Logic2018
 						break;
 
 					//Modus Tolens
-					case "MT":
+					case "MT": case "mt":
 						var inMT = new Premise[tokens.Length - 1];
 						if (!this.CheckTokenLength(tokens, 3)) break;
                         inMT = this.SetInputPremises(tokens, argument);
@@ -91,7 +91,7 @@ namespace Logic2018
 						break;
 
                         //Double Negation generic
-                    case "DN":
+                    case "DN": case "dn":
                         var inDN = new Premise[tokens.Length - 1];
                         if (!this.CheckTokenLength(tokens, 2)) break;
                         inDN = this.SetInputPremises(tokens, argument);
@@ -114,7 +114,7 @@ namespace Logic2018
                         }
 
                         //DNE specific
-                    case "DNE":
+                    case "DNE": case "dne":
 						var inDNE = new Premise[tokens.Length - 1];
 						if (!this.CheckTokenLength(tokens, 2)) break;
 						inDNE = this.SetInputPremises(tokens, argument);
@@ -134,7 +134,7 @@ namespace Logic2018
 						}
 
                         //DNI specific
-                    case "DNI":
+                    case "DNI": case "dni":
 						var inDNI = new Premise[tokens.Length - 1];
 						if (!this.CheckTokenLength(tokens, 2)) break;
 						inDNI = this.SetInputPremises(tokens, argument);
@@ -197,14 +197,14 @@ namespace Logic2018
 
 
 					//Assume CD or ID
-					case "ASS":
+					case "ASS": case "ass":
 						if (!this.CheckTokenLength(tokens, 2)) break;
 						if (assumeCounter>0) 
 						{
 							Console.WriteLine("Only 1 assume statement can be made per Show statement.");
 							break;
 						}
-						if (tokens[1] == "ID")
+						if (tokens[1].Equals("ID", StringComparison.CurrentCultureIgnoreCase))
 						{
 							inventory.Add(new Premise(toShow));
 							Console.WriteLine(argument.GetArgument());
@@ -212,7 +212,7 @@ namespace Logic2018
 							assumeCounter++;
 							break;
 						}
-						else if (tokens[1] == "CD")
+						else if (tokens[1].Equals("CD", StringComparison.CurrentCultureIgnoreCase))
 						{
 							if (toShow.type == 1)
 							{
@@ -235,7 +235,7 @@ namespace Logic2018
 						}
 
 					//closing the ID
-					case "ID":
+					case "ID": case "id":
 						//decides whether input is from lines or argument
                         var inID = new Premise[tokens.Length - 1];
 						if (!this.CheckTokenLength(tokens, 3)) break;
@@ -255,7 +255,7 @@ namespace Logic2018
 						}
 
 					//direct derivation
-					case "DD":
+					case "DD": case "dd":
 						if (!this.CheckTokenLength(tokens, 2)) break;
 						try
 						{
@@ -276,7 +276,7 @@ namespace Logic2018
 							Console.WriteLine("Error: Premise must be a reference to a line");
 							break;
 						}
-                    case "CD":
+                    case "CD": case "cd":
                         if (!this.CheckTokenLength(tokens, 2)) break;
                         try
                         {
