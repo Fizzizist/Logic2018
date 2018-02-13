@@ -3,6 +3,7 @@ namespace Logic2018
 {
     public class Rules
     {
+        private ProblemConstructor problemConstructor = new ProblemConstructor();
         public Rules()
         {
         }
@@ -27,6 +28,8 @@ namespace Logic2018
             return false;
         }
 
+        
+
         //Generates a new premise as the resule of performing a DNE on the input premise.
         public Premise DNE(Premise a)
         {
@@ -40,6 +43,21 @@ namespace Logic2018
             var newPremiseInner = new Premise(a);
             var newPremiseOuter = new Premise(newPremiseInner);
             return newPremiseOuter;
+        }
+        
+        public Premise MC1(Premise a, string b)
+        {
+            var MCAnticedent = problemConstructor.MakeCustom(b);
+            var newPremise = new Premise(1, MCAnticedent, a);
+            return newPremise;
+        }
+        
+        public Premise MC2(Premise a, string b)
+        {
+            var MCConsequent = problemConstructor.MakeCustom(b);
+            var MCAnticedent = a.negated;
+            var newPremise = new Premise(1, MCAnticedent, MCConsequent);
+            return newPremise;
         }
 
         //Generates a new premise as a result of performing Modus Ponens on the two input presmises.
@@ -101,6 +119,13 @@ namespace Logic2018
                     if (a._Equals(b.negated)) return true;
                     return false;
             }
+        }
+
+        public bool IsValidAtomic(string a)
+        {
+            if (a.Length!=1) return false;
+            if (a.Contains("P")||a.Contains("Q")||a.Contains("R")||a.Contains("S")||a.Contains("T")||a.Contains("U")||a.Contains("V")||a.Contains("W")||a.Contains("X")||a.Contains("Y")||a.Contains("Z")) return true;
+            return false;
         }
     }
 }

@@ -144,6 +144,37 @@ namespace Logic2018
                         this.ListSheet(toShow);
 						break;
 
+					case "MC1": case "mc1":
+						MC1:
+						if (!this.CheckTokenLength(tokens,2)) break;
+						var inMC1 = this.SetInputPremises(tokens,argument);
+						if (inMC1[0]==null) break;
+						Console.Write("New Anticedent:");
+						var MC1String = Console.ReadLine();
+						inventory.Add(rules.MC1(inMC1[0],MC1String));
+						Console.WriteLine(argument.GetArgument());
+						this.ListSheet(toShow);
+						break;
+
+					case "MC2": case "mc2":
+						MC2:
+						if (!this.CheckTokenLength(tokens, 2)) break;
+						var inMC2 = this.SetInputPremises(tokens,argument);
+						if (inMC2[0]==null) break;
+						Console.Write("New Consequent:");
+						var MC2String = Console.ReadLine();
+						inventory.Add(rules.MC2(inMC2[0],MC2String));
+						Console.WriteLine(argument.GetArgument());
+						this.ListSheet(toShow);
+						break;
+
+					case "MC": case "mc":
+						if (!this.CheckTokenLength(tokens, 2)) break;
+						var inMC = this.SetInputPremises(tokens,argument);
+						if (inMC[0]==null) break;
+						if (inMC[0].type==5) goto MC2;
+						else goto MC1;
+
 					case "Show":
 						Show:
 						if (!this.CheckTokenLength(tokens, 2)) break;

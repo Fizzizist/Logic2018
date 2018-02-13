@@ -29,6 +29,7 @@ namespace Logic2018
                 var upTo = argumentDisplay.Length-1;
                 for (var i = 0; i <= upTo; i++)
                 {
+                    if (problemSet==2&&i==1) Console.WriteLine("Material Conditional 1: Solve the following derivation to unlock the MC1 rule.");
                     if (solved[i] == true) Console.WriteLine(i+": "+argumentDisplay[i]+" (Solved)");
                     else Console.WriteLine(i+": "+argumentDisplay[i]);
                 }
