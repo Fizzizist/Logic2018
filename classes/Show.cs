@@ -10,11 +10,31 @@ namespace Logic2018
         private Rules rules = new Rules();
 		private int assumeCounter;
 		private Reader writer = new Reader();
-
-        public Show()
+		private bool MC1Unlocked = false;
+		private bool MC2Unlocked = false;
+		private SaveCloud saveCloud = new SaveCloud();
+		private string userID;
+        public Show(string id)
         {
+			userID = id;
 			assumeCounter = 0;
+			if (saveCloud.OpenConnection())
+			{
+				MC1Unlocked = saveCloud.CheckRuleSolved(2,1, userID);
+				MC2Unlocked = saveCloud.CheckRuleSolved(2,17,userID);
+				saveCloud.CloseConnection();
+			}
         }
+
+		public void CheckRuleLocks()
+		{
+			if (saveCloud.OpenConnection())
+			{
+				MC1Unlocked = saveCloud.CheckRuleSolved(2,1, userID);
+				MC2Unlocked = saveCloud.CheckRuleSolved(2,17,userID);
+				saveCloud.CloseConnection();
+			}
+		}
 
         //Main loop for derivation of the argument's conclusion.
         public bool ShowPremise(Argument argument, Premise toShow, List<Premise> mainInv)
@@ -46,6 +66,8 @@ namespace Logic2018
 						goto MainShow;
 
                     case "exit":
+						inventory.Clear();
+						assumeCounter = 0;
                         return false;
 					//Modus Ponens
 					case "MP": case "mp":
@@ -146,6 +168,11 @@ namespace Logic2018
 
 					case "MC1": case "mc1":
 						MC1:
+						if (!MC1Unlocked)
+						{
+							Console.WriteLine("Solve derivation 1 of problem set 2 to unlock this rule.");
+							break;
+						}
 						if (!this.CheckTokenLength(tokens,2)) break;
 						var inMC1 = this.SetInputPremises(tokens,argument);
 						if (inMC1[0]==null) break;
@@ -158,6 +185,11 @@ namespace Logic2018
 
 					case "MC2": case "mc2":
 						MC2:
+						if (!MC2Unlocked)
+						{
+							Console.WriteLine("Solve derivation 17 of problem set 2 to unlock this rule.");
+							break;
+						}
 						if (!this.CheckTokenLength(tokens, 2)) break;
 						var inMC2 = this.SetInputPremises(tokens,argument);
 						if (inMC2[0]==null) break;
@@ -185,7 +217,7 @@ namespace Logic2018
 							Console.WriteLine("Invalid premise");
 							break;
 						}
-						var newShow = new Show();
+						var newShow = new Show(userID);
 						if (newShow.ShowPremise(argument, newPremise, inventory))
 						{
 							inventory.Add(newPremise);

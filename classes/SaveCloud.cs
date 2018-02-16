@@ -35,7 +35,7 @@ namespace Logic2018
 		}
 
 		//open connection to database
-		private bool OpenConnection()
+		public bool OpenConnection()
 		{
             try
             {
@@ -50,7 +50,7 @@ namespace Logic2018
 		}
 
 		//Close connection
-		private bool CloseConnection()
+		public bool CloseConnection()
 		{
 			try
 			{
@@ -152,6 +152,20 @@ namespace Logic2018
 				//close connection
 				this.CloseConnection();
 			}
+		}
+
+		public bool CheckRuleSolved(int table, int derivation, string id)
+		{
+			var query = "SELECT solved FROM savedata_"+id+"_"+table+" WHERE derivation = "+derivation+";";
+
+			
+				//create command and assign the query and connection from the constructor
+			var cmd = new MySqlCommand(query, connection);
+
+				//Execute command
+			var result = Convert.ToBoolean(cmd.ExecuteScalar());	
+
+			return result;
 		}
 
 		public string GetHash(string input)

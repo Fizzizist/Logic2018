@@ -6,12 +6,12 @@ namespace Logic2018
     public class Tutorial
     {
         private Reader writer = new Reader();
-        public Tutorial(int part)
+        public Tutorial(int part, string userID)
         {
             switch (part)
             {
                 case 1:
-                    var DDSHow = new Show();
+                    var DDSHow = new Show(userID);
                     writer.AddTenBlankLines();
                     writer.Read(0,18,"textFiles/tutorial.txt");
                     var problem = new ProblemConstructor(1, 0);
@@ -106,7 +106,7 @@ namespace Logic2018
                         else
                         {
                             writer.Read(94,102,"textFiles/tutorial.txt");
-                            var IDShow = new Show();
+                            var IDShow = new Show(userID);
                             IDShow.SetAssumeCounter(1);
                             var IDInv = new List<Premise>();
                             IDInv.Add(problem2.MakeCustom("R"));
@@ -158,7 +158,7 @@ namespace Logic2018
                         {
                             writer.AddTenBlankLines();
                             writer.Read(137,141,"textFiles/tutorial.txt");
-                            var IDShow = new Show();
+                            var IDShow = new Show(userID);
                             IDShow.SetAssumeCounter(1);
                             var IDInv = new List<Premise>();
                             IDInv.Add(problem3.MakeCustom("P"));

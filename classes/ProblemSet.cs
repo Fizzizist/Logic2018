@@ -11,10 +11,10 @@ namespace Logic2018
         private Reader writer = new Reader();
         private Argument currentArgument;
         private List<Premise> mainInventory = new List<Premise>();
-        private Show show = new Show();
+        private Show show;
         public ProblemSet(int problemSet, string userID)
         {
-            
+            show = new Show(userID);
             WorkingWithConditionals:
             while (stillRunning)
             {
@@ -30,6 +30,7 @@ namespace Logic2018
                 for (var i = 0; i <= upTo; i++)
                 {
                     if (problemSet==2&&i==1) Console.WriteLine("Material Conditional 1: Solve the following derivation to unlock the MC1 rule.");
+                    if (problemSet==2&&i==17) Console.WriteLine("Material Conditional 2: Solve the following derivation to unlock the MC2 rule.");
                     if (solved[i] == true) Console.WriteLine(i+": "+argumentDisplay[i]+" (Solved)");
                     else Console.WriteLine(i+": "+argumentDisplay[i]);
                 }
@@ -91,6 +92,7 @@ namespace Logic2018
                                     Console.WriteLine("Solved!");
                                     solved[Convert.ToInt32(choice)] = true;
                                     saveCloud.MakeSolvedTrue(problemSet, userID, Convert.ToInt32(choice));
+                                    show.CheckRuleLocks();
                                     mainInventory.Clear();
                                     break;
                                 }
@@ -113,6 +115,7 @@ namespace Logic2018
                                         Console.WriteLine("Solved!");
                                         solved[Convert.ToInt32(choice)] = true;
                                         saveCloud.MakeSolvedTrue(problemSet, userID, Convert.ToInt32(choice));
+                                        show.CheckRuleLocks();
                                         mainInventory.Clear();
                                         break;
                                     }

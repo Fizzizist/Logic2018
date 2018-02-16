@@ -145,13 +145,13 @@ namespace Logic2018
                         switch (tutorialChoiceInt)
                         {
                             case 1:
-                                tutorial = new Tutorial(1);
+                                tutorial = new Tutorial(1,userID);
                                 goto MainMenu;
                             case 2:
-                                tutorial = new Tutorial(2);
+                                tutorial = new Tutorial(2,userID);
                                 goto MainMenu;
                             case 3:
-                                tutorial = new Tutorial(3);
+                                tutorial = new Tutorial(3,userID);
                                 goto MainMenu;
                             default:
                                 Console.WriteLine("That is not a valid choice. Try Again or type 'exit' to go to main menu.");
