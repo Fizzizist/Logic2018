@@ -96,3 +96,17 @@ Command:DNE [Premise] where the premise has a double negation
 DNI [Premise]
 DN [Premise]
 
+Material Conditional
+The Material Conditional rule allows one to create a conditional from any 
+proposition. There are two material conditional rules. The first states that if 
+I have a proposition such as P, then I can state Q->P where Q can be any 
+proposition. 
+The second and opposing rule is that if I have a negated proposition such as ~P
+then I can state P->Q where Q is any new proposition, and P is the negation of
+~P. This rule works simply because one can prove the rule by deriving the two
+following theorems:
+C: P->(Q->P) (Problem set 2, Derivation 1)
+C: ~P->(P->Q) (Problem set 2, Derivation 17)
+Command: MC1 [Premise]
+MC2 [Premise]
+MC [Premise] (will automatically choose MC1 or MC2) 
