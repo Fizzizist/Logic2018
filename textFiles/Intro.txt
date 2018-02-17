@@ -1,4 +1,4 @@
-Welcome to Logic2018 Alpha v0.0.1!
+Welcome to Logic2018 Alpha v0.0.2!
 This is formal logic derivation simulator.
 The User invokes logical rules to arguments in order to
 prove their validity.
