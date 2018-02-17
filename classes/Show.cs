@@ -14,6 +14,7 @@ namespace Logic2018
 		private bool MC2Unlocked = false;
 		private SaveCloud saveCloud = new SaveCloud();
 		private string userID;
+		private bool redo = false;
         public Show(string id)
         {
 			userID = id;
@@ -39,6 +40,7 @@ namespace Logic2018
         //Main loop for derivation of the argument's conclusion.
         public bool ShowPremise(Argument argument, Premise toShow, List<Premise> mainInv)
         {
+			redo = false;
             for (var j = 0; j < mainInv.Count;j++)
             {
                 inventory.Add(mainInv[j]);
@@ -48,6 +50,7 @@ namespace Logic2018
                 argumentPremises.Add(argument.premises[i]);
             }
 			MainShow:
+			
             Console.WriteLine(argument.GetArgument());
 			this.ListSheet(toShow);
 
@@ -69,6 +72,11 @@ namespace Logic2018
 						inventory.Clear();
 						assumeCounter = 0;
                         return false;
+					case "redo":
+						inventory.Clear();
+						assumeCounter = 0;
+						redo = true;
+						return false;
 					//Modus Ponens
 					case "MP": case "mp":
                         var inMP = new Premise[tokens.Length - 1];
@@ -175,7 +183,7 @@ namespace Logic2018
 						}
 						if (!this.CheckTokenLength(tokens,2)) break;
 						var inMC1 = this.SetInputPremises(tokens,argument);
-						if (inMC1[0]==null) break;
+						if (inMC1==null) break;
 						Console.Write("New Anticedent:");
 						var MC1String = Console.ReadLine();
 						inventory.Add(rules.MC1(inMC1[0],MC1String));
@@ -192,7 +200,7 @@ namespace Logic2018
 						}
 						if (!this.CheckTokenLength(tokens, 2)) break;
 						var inMC2 = this.SetInputPremises(tokens,argument);
-						if (inMC2[0]==null) break;
+						if (inMC2==null) break;
 						Console.Write("New Consequent:");
 						var MC2String = Console.ReadLine();
 						inventory.Add(rules.MC2(inMC2[0],MC2String));
@@ -203,7 +211,7 @@ namespace Logic2018
 					case "MC": case "mc":
 						if (!this.CheckTokenLength(tokens, 2)) break;
 						var inMC = this.SetInputPremises(tokens,argument);
-						if (inMC[0]==null) break;
+						if (inMC==null) break;
 						if (inMC[0].type==5) goto MC2;
 						else goto MC1;
 
@@ -224,7 +232,13 @@ namespace Logic2018
 							Console.WriteLine(argument.GetArgument());
 							this.ListSheet(toShow);
 							break;
-						}
+						} else if (newShow.GetRedo())
+						{
+							inventory.Clear();
+							assumeCounter = 0;
+							redo = true;
+							return false;
+						} 
 						break;
 
 
@@ -410,6 +424,10 @@ namespace Logic2018
 		public void ClearInventory()
 		{
 			inventory.Clear();
+		}
+		public bool GetRedo()
+		{
+			return redo;
 		}
     }
 }

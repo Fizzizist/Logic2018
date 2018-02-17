@@ -66,6 +66,9 @@ namespace Logic2018
 
                 problemConstructor = new ProblemConstructor(problemSet, choiceInt);
                 currentArgument = problemConstructor.argument;
+                Console.WriteLine("Type 'help' at any time to read about commands.");
+                Console.WriteLine("Type 'redo' to restart the derivation at any time.");
+                Console.WriteLine("Type 'exit' at any time to exit.");
                 Console.WriteLine(currentArgument.GetArgument());
                 Console.Write("Command: ");
                 string[] tokens = Console.ReadLine().Split(' ');
@@ -77,6 +80,8 @@ namespace Logic2018
                     case "help":
                         writer.ReadWholeFile("textFiles/helpShow.txt");
                         break;
+                    case "exit":
+                        break;
                     case "Show":
                         Show:
                         if (!show.CheckTokenLength(tokens,2)) 
@@ -87,6 +92,7 @@ namespace Logic2018
                         switch (tokens[1])
                         {
                             case "C": case "c":
+                                Redo:
                                 if (show.ShowPremise(currentArgument, currentArgument.conclusion, mainInventory))
                                 {
                                     Console.WriteLine("Solved!");
@@ -95,6 +101,10 @@ namespace Logic2018
                                     show.CheckRuleLocks();
                                     mainInventory.Clear();
                                     break;
+                                }
+                                else if (show.GetRedo())
+                                {
+                                    goto Redo;
                                 }
                                 else
                                 {
