@@ -55,6 +55,7 @@ namespace Logic2018
 			try
 			{
 				connection.Close();
+				//Console.WriteLine("closed."); //testing.
 				return true;
 			}
 			catch (MySqlException ex)
@@ -297,40 +298,64 @@ namespace Logic2018
 
 		public void UserTableCheck(string id)
 		{
-			for (var i=1;i<=Constants.NumberOfProblemSets;i++)
-			{
-				var expectedInt = this.GetArgumentListLength(i);
-				var query1 = "SELECT COUNT(*) FROM savedata_"+id+"_"+i+";";
-			
-				var result = 0;
-				QueryLoop:
-				if (this.OpenConnection() == true)
+			MainLoop:
+			var counter = 0;
+			try{
+				for (var i=1;i<=Constants.NumberOfProblemSets;i++)
 				{
-					//create command and assign the query and connection from the constructor
-					var cmd = new MySqlCommand(query1, connection);
-
-					//Execute command
-					result = Convert.ToInt32(cmd.ExecuteScalar());	
-
-				//close connection
-					this.CloseConnection();
-				}
-				if (result<expectedInt)
-				{
-					var query2 = "INSERT INTO savedata_"+id+"_"+i+" (derivation,solved) VALUES("+Convert.ToString(result)+",false);";
+					counter = i;
+					var expectedInt = this.GetArgumentListLength(i);
+					var query1 = "SELECT COUNT(*) FROM savedata_"+id+"_"+i+";";
+				
+					var result = 0;
+					QueryLoop:
+					
 					if (this.OpenConnection() == true)
-					{	
+					{
 						//create command and assign the query and connection from the constructor
-						var cmd = new MySqlCommand(query2, connection);
+						var cmd = new MySqlCommand(query1, connection);
 
 						//Execute command
-						cmd.ExecuteNonQuery();	
+						result = Convert.ToInt32(cmd.ExecuteScalar());	
 
-						//close connection
+					//close connection
 						this.CloseConnection();
 					}
-					goto QueryLoop;
+					if (result<expectedInt)
+					{
+						var query2 = "INSERT INTO savedata_"+id+"_"+i+" (derivation,solved) VALUES("+Convert.ToString(result)+",false);";
+						if (this.OpenConnection() == true)
+						{	
+							//create command and assign the query and connection from the constructor
+							var cmd = new MySqlCommand(query2, connection);
+
+							//Execute command
+							cmd.ExecuteNonQuery();	
+
+							//close connection
+							this.CloseConnection();
+						}
+						goto QueryLoop;
+					}
 				}
+			}
+			catch (MySqlException)
+			{
+				this.CloseConnection();
+				
+				var query = "CREATE TABLE savedata_"+id+"_"+counter+" LIKE savedata_"+id+"_1;";
+				if (this.OpenConnection() == true)
+				{	
+					//create command and assign the query and connection from the constructor
+					var cmd = new MySqlCommand(query, connection);
+
+					//Execute command
+					cmd.ExecuteNonQuery();	
+
+					//close connection
+					this.CloseConnection();
+				}
+				goto MainLoop;
 			}
 		}
 

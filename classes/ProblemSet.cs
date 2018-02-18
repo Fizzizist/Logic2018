@@ -41,7 +41,7 @@ namespace Logic2018
                 {
                     choiceInt = Convert.ToInt32(choice);
                 }
-                catch(Exception e)
+                catch(Exception)
                 {
                     switch (choice)
                     {
@@ -59,7 +59,7 @@ namespace Logic2018
                             goto WorkingWithConditionals;
                         default:
                             Console.WriteLine("That is not a valid choice. Try again.");
-                            Console.WriteLine(e); //testing
+                            //Console.WriteLine(e); //testing
                             goto Loop1;
                     }
                 }

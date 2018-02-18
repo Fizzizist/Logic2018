@@ -27,8 +27,15 @@ namespace Logic2018
             Premise newPremise;
 			if (inputString.Length == 1)
 			{
-                newPremise = new Premise(inputString);
-                return newPremise;
+				if (this.IsValidAtomic(inputString))
+				{
+					newPremise = new Premise(inputString);
+					return newPremise;	
+				}
+                else
+				{
+					return null;
+				}
 			}
 			else
 			{
@@ -245,6 +252,12 @@ namespace Logic2018
             return newArgument;
         }
 
+		public bool IsValidAtomic(string a)
+        {
+            if (a.Length!=1) return false;
+            if (a.Contains("P")||a.Contains("Q")||a.Contains("R")||a.Contains("S")||a.Contains("T")||a.Contains("U")||a.Contains("V")||a.Contains("W")||a.Contains("X")||a.Contains("Y")||a.Contains("Z")) return true;
+            return false;
+        }
 		
 	}
 }

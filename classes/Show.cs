@@ -397,21 +397,24 @@ namespace Logic2018
             var premises = new Premise[tokens.Length-1];
 			for (var i = 1; i < tokens.Length; i++)
 			{
-				if (tokens[i].Substring(0, 1) == "P")
+				try
 				{
-                    premises[i - 1] = argument.premises[Convert.ToInt32(tokens[i].Substring(2)) - 1];
+					premises[i - 1] = inventory[Convert.ToInt32(tokens[i])];
 				}
-				else
+				catch (Exception)
 				{
-                    try
-                    {
-                        premises[i - 1] = inventory[Convert.ToInt32(tokens[i])];
-                    }
-                    catch (Exception)
-                    {
-                        Console.WriteLine("Premise input must begin with 'PR' or be an integer.");
+					try
+					{
+						if (tokens[i].Substring(0, 2).Equals("PR", StringComparison.CurrentCultureIgnoreCase))
+						{
+							premises[i - 1] = argument.premises[Convert.ToInt32(tokens[i].Substring(2)) - 1];
+						}
+					}
+					catch (Exception)
+					{
+						Console.WriteLine("Premise input must begin with 'PR' or be an integer.");
                         return null;
-                    }
+					}
 				}
 			}
             return premises;

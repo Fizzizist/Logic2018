@@ -120,12 +120,5 @@ namespace Logic2018
                     return false;
             }
         }
-
-        public bool IsValidAtomic(string a)
-        {
-            if (a.Length!=1) return false;
-            if (a.Contains("P")||a.Contains("Q")||a.Contains("R")||a.Contains("S")||a.Contains("T")||a.Contains("U")||a.Contains("V")||a.Contains("W")||a.Contains("X")||a.Contains("Y")||a.Contains("Z")) return true;
-            return false;
-        }
     }
 }

@@ -169,5 +169,5 @@ Congratulations!
 
 Now you know how to perform conditional derivations and nested show statements. If
 you completed the previous two tutorials then you have all the tools that you need
-to complete the entire first and second problem sets. So go have fun deriving! Come back for
+to complete the entire first, second and third problem sets. So go have fun deriving! Come back for
 more tutorials when you are ready to take on more complex problem sets!
