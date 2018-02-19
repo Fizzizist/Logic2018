@@ -86,27 +86,50 @@ namespace Logic2018
 				}
 				else
 				{
-					for (var i = 0; i < inputString.Length; i++)
+					string[] tokens;
+					if(inputString.Length==2)
 					{
-						if (inputString[i] != '(' && inputString[i] != ')' && inputString[i] != '~' && inputString[i] != '-' && inputString[i] != '>' && inputString[i] != '<' && inputString[i] != '^' && inputString[i] != 'v')
-						{
-							objectString.Add(inputString[i].ToString());
-						}
-						else
-						{
-							unbracketed += inputString[i];
-						}
+						objectString.Add(inputString.Substring(1));
+						unbracketed = "~";
+					}
+					else if (inputString.Contains("<->"))
+					{
+						tokens = inputString.Split("<->");
+						objectString.Add(tokens[0]);
+						objectString.Add(tokens[1]);
+						unbracketed = "<->";	
+					} 
+					else if (inputString.Contains("->"))
+					{
+						tokens = inputString.Split("->");
+						objectString.Add(tokens[0]);
+						objectString.Add(tokens[1]);
+						unbracketed = "->";	
+					}
+					else if (inputString.Contains("v")) 
+					{
+						tokens = inputString.Split("v");
+						objectString.Add(tokens[0]);
+						objectString.Add(tokens[1]);
+						unbracketed = "v";
+					}
+					else if (inputString.Contains("^")) 
+					{
+						tokens = inputString.Split("^");
+						objectString.Add(tokens[0]);
+						objectString.Add(tokens[1]);
+						unbracketed = "^";
 					}
 				}
 			}
 
-            //Testing.
-			/*for (var i = 0; i < objectString.Count; i++)
+            
+			for (var i = 0; i < objectString.Count; i++)
 			{
 				Console.WriteLine(objectString[i]);
 			}
 			Console.WriteLine(unbracketed);
-			Console.WriteLine(objectString.Count);*/
+			Console.WriteLine(objectString.Count);
 
 
 			//Deal with basic negation cases
@@ -149,6 +172,14 @@ namespace Logic2018
                     return newPremise;
 				}
 			}
+
+			//More Testing
+			for (var i=0;i<objectString.Count;i++)
+			{
+				Console.WriteLine(objectString[i]);
+			}
+
+
 
 			//reconstruct negated object strings
 			if (objectString.Count > 1 && unbracketed.Contains("~"))

@@ -98,6 +98,7 @@ namespace Logic2018
                 Console.WriteLine("2. Problem set 1 (Working with Conditionals)");
                 Console.WriteLine("3. Problem Set 2 (Intro to Theorems)");
                 Console.WriteLine("4. Problem Set 3 (Final Conditional Battle)");
+                Console.WriteLine("5. Problem Set 4 (Welcome to the AND, OR and Biconditional)");
                 int mainChoice = 0;
                 var mainInput = "";
                 try
@@ -159,7 +160,7 @@ namespace Logic2018
                                 goto TutorialMenu;
 
                         }
-                    case 2: case 3: case 4:
+                    case 2: case 3: case 4: case 5:
                         var problemSet = new ProblemSet((mainChoice-1), userID);
                         goto MainMenu;
                     default:
