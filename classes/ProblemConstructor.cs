@@ -73,15 +73,36 @@ namespace Logic2018
 						}
 						else if (count == 0)
 						{
-							if (inputString[i] != '(' && inputString[i] != ')' && inputString[i] != '~' && inputString[i] != '-' && inputString[i] != '>' && inputString[i] != '<' && inputString[i] != '^' && inputString[i] != 'v')
-							{
-								objectString.Add(inputString[i].ToString());
-							}
-							else
-							{
-								unbracketed += inputString[i];
-							}
+							unbracketed += inputString[i];
 						}
+					}
+					if (unbracketed.Contains("<->"))
+					{
+						var objectStringTemp = this.ConstructObjectString(unbracketed,objectString, "<->");
+						objectString.Clear();
+						objectString.Add(objectStringTemp[0]);
+						objectString.Add(objectStringTemp[1]);
+					}
+					else if (unbracketed.Contains("->"))
+					{
+						var objectStringTemp = this.ConstructObjectString(unbracketed,objectString, "->");
+						objectString.Clear();
+						objectString.Add(objectStringTemp[0]);
+						objectString.Add(objectStringTemp[1]);
+					}
+					else if (unbracketed.Contains("v"))
+					{
+						var objectStringTemp = this.ConstructObjectString(unbracketed,objectString, "v");
+						objectString.Clear();
+						objectString.Add(objectStringTemp[0]);
+						objectString.Add(objectStringTemp[1]);
+					}
+					else if (unbracketed.Contains("^"))
+					{
+						var objectStringTemp = this.ConstructObjectString(unbracketed,objectString, "^");
+						objectString.Clear();
+						objectString.Add(objectStringTemp[0]);
+						objectString.Add(objectStringTemp[1]);
 					}
 				}
 				else
@@ -123,13 +144,15 @@ namespace Logic2018
 				}
 			}
 
-            
-			for (var i = 0; i < objectString.Count; i++)
+			
+            //Testing
+			 
+			/*for (var i = 0; i < objectString.Count; i++)
 			{
 				Console.WriteLine(objectString[i]);
 			}
 			Console.WriteLine(unbracketed);
-			Console.WriteLine(objectString.Count);
+			Console.WriteLine(objectString.Count);*/
 
 
 			//Deal with basic negation cases
@@ -174,47 +197,11 @@ namespace Logic2018
 			}
 
 			//More Testing
-			for (var i=0;i<objectString.Count;i++)
+			/*for (var i=0;i<objectString.Count;i++)
 			{
 				Console.WriteLine(objectString[i]);
-			}
+			}*/
 
-
-
-			//reconstruct negated object strings
-			if (objectString.Count > 1 && unbracketed.Contains("~"))
-			{
-				var firstNegatedPremise = 0;
-				var firstNegatedAmount = 0;
-				var secondNegatedAmount = 0;
-				for (var i=0;i<unbracketed.Length;i++)
-				{
-					if (unbracketed[i]=='~') firstNegatedAmount++;
-					if (unbracketed[i]!='~')
-					{
-						firstNegatedPremise = i;
-						goto SecondFor;
-					}
-				}
-				SecondFor:
-				for (var i=firstNegatedPremise;i<unbracketed.Length;i++)
-				{
-					if (unbracketed[i]=='~') secondNegatedAmount++;
-					
-				}
-
-				if (firstNegatedAmount>0) objectString[0] = "(" + objectString[0] + ")";
-				for (var i=0;i<firstNegatedAmount;i++)
-				{
-					objectString[0] = "~" + objectString[0];
-				}
-
-				if (secondNegatedAmount>0) objectString[1] = "(" + objectString[1] + ")";
-				for (var i=0;i<secondNegatedAmount;i++)
-				{
-					objectString[1] = "~" + objectString[1];
-				}
-			}
 
 			//testing
 			//Console.WriteLine(objectString[1]);
@@ -290,5 +277,19 @@ namespace Logic2018
             return false;
         }
 		
+		private List<string> ConstructObjectString(string unbrack, List<string> objStr, string symbol)
+		{
+			var temp = unbrack.Split(symbol);
+			var objectStringTemp = new List<string>();
+			if (!temp[0].Contains("()")) objectStringTemp.Add(temp[0]);
+			else if (temp[0].Contains("~"))  objectStringTemp.Add("~("+objStr[0]+")");
+			else objectStringTemp.Add(objStr[0]);
+			if (!temp[1].Contains("()")) objectStringTemp.Add(temp[1]);
+			else if (temp[0].Contains("()")&&temp[1].Contains("~")) objectStringTemp.Add("~("+objStr[1]+")");
+			else if (temp[0].Contains("()")) objectStringTemp.Add(objStr[1]);
+			else if (temp[1].Contains("~")) objectStringTemp.Add("~("+objStr[0]+")");
+			else objectStringTemp.Add(objStr[0]);
+			return objectStringTemp;
+		}
 	}
 }
