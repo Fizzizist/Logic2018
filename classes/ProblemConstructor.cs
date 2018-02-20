@@ -108,12 +108,7 @@ namespace Logic2018
 				else
 				{
 					string[] tokens;
-					if(inputString.Length==2)
-					{
-						objectString.Add(inputString.Substring(1));
-						unbracketed = "~";
-					}
-					else if (inputString.Contains("<->"))
+					if (inputString.Contains("<->"))
 					{
 						tokens = inputString.Split("<->");
 						objectString.Add(tokens[0]);
@@ -140,6 +135,14 @@ namespace Logic2018
 						objectString.Add(tokens[0]);
 						objectString.Add(tokens[1]);
 						unbracketed = "^";
+					}
+					else if(inputString.Contains("~"))
+					{
+						objectString.Add(inputString.Substring(inputString.Length-1));
+						for (var i=0;i<inputString.Length-1;i++)
+						{
+							unbracketed += inputString[i];
+						}
 					}
 				}
 			}
