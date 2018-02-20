@@ -174,6 +174,108 @@ namespace Logic2018
                         this.ListSheet(toShow);
 						break;
 
+					case "SR": case "sr":
+						var inSR = new Premise[tokens.Length - 1];
+						if (!this.CheckTokenLength(tokens, 2)) break;
+						inSR = this.SetInputPremises(tokens, argument);
+                        if (inSR == null) break;
+						inventory.Add(inSR[0].child2);
+						Console.WriteLine(argument.GetArgument());
+                        this.ListSheet(toShow);
+						break;
+
+					case "SL": case "sl":
+						var inSL = new Premise[tokens.Length - 1];
+						if (!this.CheckTokenLength(tokens, 2)) break;
+						inSL = this.SetInputPremises(tokens, argument);
+                        if (inSL == null) break;
+						inventory.Add(inSL[0].child1);
+						Console.WriteLine(argument.GetArgument());
+                        this.ListSheet(toShow);
+						break;
+
+					case "S": case "s":
+						var inS = new Premise[tokens.Length - 1];
+						if (!this.CheckTokenLength(tokens, 2)) break;
+						inS = this.SetInputPremises(tokens, argument);
+                        if (inS == null) break;
+						inventory.Add(inS[0].child2);
+						inventory.Add(inS[0].child1);
+						Console.WriteLine(argument.GetArgument());
+                        this.ListSheet(toShow);
+						break;
+
+					case "AddR": case "addr":
+						AddR:
+						var inAddR = new Premise[tokens.Length - 1];
+						if (!this.CheckTokenLength(tokens, 2)) break;
+						inAddR = this.SetInputPremises(tokens, argument);
+                        if (inAddR == null) break;
+						var AddRPremise = rules.AddR(inAddR[0]);
+						if (AddRPremise==null)
+						{
+							Console.WriteLine("That is not a valid addition.");
+							break;
+						}
+						else
+						{
+							inventory.Add(AddRPremise);
+							Console.WriteLine(argument.GetArgument());
+							this.ListSheet(toShow);
+							break;
+						}
+					
+					case "AddL": case "addl":
+						var inAddL = new Premise[tokens.Length - 1];
+						if (!this.CheckTokenLength(tokens, 2)) break;
+						inAddL = this.SetInputPremises(tokens, argument);
+                        if (inAddL == null) break;
+						var AddLPremise = rules.AddL(inAddL[0]);
+						if (AddLPremise==null)
+						{
+							Console.WriteLine("That is not a valid addition.");
+							break;
+						}
+						else
+						{
+							inventory.Add(AddLPremise);
+							Console.WriteLine(argument.GetArgument());
+							this.ListSheet(toShow);
+							break;
+						}
+
+					case "Add": case "add":
+						goto AddR;
+
+					case "Adj": case "adj":
+						var inAdj = new Premise[tokens.Length - 1];
+						if (!this.CheckTokenLength(tokens,3)) break;
+						inAdj = this.SetInputPremises(tokens,argument);
+						if (inAdj == null) break;
+						inventory.Add(rules.Adj(inAdj[0],inAdj[1]));
+						Console.WriteLine(argument.GetArgument());
+                        this.ListSheet(toShow);
+						break;
+
+					case "MTP": case "mtp":
+						var inMTP = new Premise[tokens.Length - 1];
+						if (!this.CheckTokenLength(tokens,3)) break;
+						inMTP = this.SetInputPremises(tokens,argument);
+						if (inMTP == null) break;
+						var MTPPremise = rules.MTP(inMTP[0],inMTP[1]);
+						if (MTPPremise==null)
+						{
+							Console.WriteLine("Cannot perform this rule on these premises.");
+							break;
+						}
+						else
+						{
+							inventory.Add(MTPPremise);
+							Console.WriteLine(argument.GetArgument());
+							this.ListSheet(toShow);
+							break;
+						}
+
 					case "MC1": case "mc1":
 						MC1:
 						if (!MC1Unlocked)

@@ -44,6 +44,56 @@ namespace Logic2018
             var newPremiseOuter = new Premise(newPremiseInner);
             return newPremiseOuter;
         }
+
+        public Premise AddR(Premise a)
+        {
+            Console.Write("New Addition:");
+            var inString = Console.ReadLine();
+            var newAddition = problemConstructor.MakeCustom(inString);
+            if (newAddition==null) return null;
+            else
+            {
+                var newPremise = new Premise(4, a, newAddition);
+                return newPremise;
+            }
+        }
+
+        public Premise AddL(Premise a)
+        {
+            Console.Write("New Addition:");
+            var inString = Console.ReadLine();
+            var newAddition = problemConstructor.MakeCustom(inString);
+            if (newAddition==null) return null;
+            else
+            {
+                var newPremise = new Premise(4, newAddition, a);
+                return newPremise;
+            }
+        }
+
+        public Premise Adj(Premise a, Premise b)
+        {
+            var newPremise = new Premise(3, a, b);
+            return newPremise;
+        }
+
+        public Premise MTP(Premise a, Premise b)
+        {
+            Premise returnPremise = null;
+            if (a.type==5&&b.type==4)
+            {
+                if (a.negated._Equals(b.child1)) returnPremise = b.child2;
+                else if (a.negated._Equals(b.child2)) returnPremise = b.child1;
+                return returnPremise;
+            }
+            else if (a.type==4&&b.type==5)
+            {
+                if (b.negated._Equals(a.child1)) returnPremise = a.child2;
+                else if (b.negated._Equals(a.child2)) returnPremise = a.child1;
+                return returnPremise;
+            }
+            else return returnPremise;
+        }
         
         public Premise MC1(Premise a, string b)
         {
