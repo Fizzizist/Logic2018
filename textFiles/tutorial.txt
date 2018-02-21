@@ -169,5 +169,11 @@ Congratulations!
 
 Now you know how to perform conditional derivations and nested show statements. If
 you completed the previous two tutorials then you have all the tools that you need
-to complete the entire first, second and third problem sets. So go have fun deriving! Come back for
-more tutorials when you are ready to take on more complex problem sets!
+to complete the rest of the problems in sentential logic. Every derivation can be
+solved by using either a direct, indirect, or conditional derivation. Remember to
+use nested show statements, and remember to look at the help file for more rules
+that deal with the other operators like AND(^), OR(v), and the biconditional(<->).
+
+Some of the rules need to be derived before they can be used. You can unlock these
+rules by deriving them in the theorem problem sets. Good luck and have fun! Come 
+back when you are ready to learn about predicate logic.

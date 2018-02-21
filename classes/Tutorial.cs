@@ -171,7 +171,7 @@ namespace Logic2018
                                 IDInv.Add(problem3_2.MakeCustom("P"));
                                 if (IDShow.ShowPremise(problem3_2.argument,problem3_2.argument.conclusion,IDInv))
                                 {
-                                    writer.Read(166,174,"textFiles/tutorial.txt");
+                                    writer.Read(166,180,"textFiles/tutorial.txt");
                                     break;
                                 }
                                 else
