@@ -276,6 +276,84 @@ namespace Logic2018
 							break;
 						}
 
+					case "BCL": case "bcl":
+						var inBCL = new Premise[tokens.Length - 1];
+						if (!this.CheckTokenLength(tokens,2)) break;
+						inBCL = this.SetInputPremises(tokens,argument);
+						if (inBCL == null) break;
+						var BCLPremise = rules.BCL(inBCL[0]);
+						if (BCLPremise==null)
+						{
+							Console.WriteLine("This rule cannot be performed on that premise.");
+							break;
+						}
+						else
+						{
+							inventory.Add(BCLPremise);
+							Console.WriteLine(argument.GetArgument());
+							this.ListSheet(toShow);
+							break;
+						}
+
+					case "BCR": case "bcr":
+						var inBCR = new Premise[tokens.Length - 1];
+						if (!this.CheckTokenLength(tokens,2)) break;
+						inBCR = this.SetInputPremises(tokens,argument);
+						if (inBCR == null) break;
+						var BCRPremise = rules.BCR(inBCR[0]);
+						if (BCRPremise==null)
+						{
+							Console.WriteLine("This rule cannot be performed on that premise.");
+							break;
+						}
+						else
+						{
+							inventory.Add(BCRPremise);
+							Console.WriteLine(argument.GetArgument());
+							this.ListSheet(toShow);
+							break;
+						}
+
+					case "BC": case "bc":
+						var inBC = new Premise[tokens.Length - 1];
+						if (!this.CheckTokenLength(tokens,2)) break;
+						inBC = this.SetInputPremises(tokens,argument);
+						if (inBC == null) break;
+						var BCPremise1 = rules.BCL(inBC[0]);
+						var BCPremise2 = rules.BCR(inBC[0]);
+						if (BCPremise1==null||BCPremise2==null)
+						{
+							Console.WriteLine("This rule cannot be performed on that premise.");
+							break;
+						}
+						else
+						{
+							inventory.Add(BCPremise1);
+							inventory.Add(BCPremise2);
+							Console.WriteLine(argument.GetArgument());
+							this.ListSheet(toShow);
+							break;
+						}
+
+					case "CB": case "cb":
+						var inCB = new Premise[tokens.Length - 1];
+						if (!this.CheckTokenLength(tokens,3)) break;
+						inCB = this.SetInputPremises(tokens,argument);
+						if (inCB == null) break;
+						var CBPremise = rules.CB(inCB[0], inCB[1]);
+						if (CBPremise==null)
+						{
+							Console.WriteLine("This rule cannot be performed on that premise.");
+							break;
+						}
+						else
+						{
+							inventory.Add(CBPremise);
+							Console.WriteLine(argument.GetArgument());
+							this.ListSheet(toShow);
+							break;
+						}
+
 					case "MC1": case "mc1":
 						MC1:
 						if (!MC1Unlocked)

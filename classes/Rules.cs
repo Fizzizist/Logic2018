@@ -94,6 +94,37 @@ namespace Logic2018
             }
             else return returnPremise;
         }
+
+        public Premise BCL(Premise a)
+        {
+            if (a.type!=2) return null;
+            else
+            {
+                var newPremise = new Premise(1, a.child1, a.child2);
+                return newPremise;
+            }  
+        }
+
+        public Premise BCR(Premise a)
+        {
+            if (a.type!=2) return null;
+            else
+            {
+                var newPremise = new Premise(1, a.child2, a.child1);
+                return newPremise;
+            }  
+        }
+
+        public Premise CB(Premise a, Premise b)
+        {
+            if (a.type!=1||b.type!=1) return null;
+            else if (a.anti._Equals(b.cons)&&b.anti._Equals(a.cons))
+            {
+                var newPremise = new Premise(2, a.anti, b.anti);
+                return newPremise;
+            }
+            else return null;
+        }
         
         public Premise MC1(Premise a, string b)
         {
