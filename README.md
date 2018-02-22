@@ -5,7 +5,7 @@ Logic 2018 is a remake of Logic 2010, an educational logic game in which players
 An alpha build is available at http://groupstack.net/Logic2018. Click on the operating system of your choice, unpack the zip archive and run the executable.
 
 # Future Direction
-The program is currently fully command-line based with 3 problem sets in sentential logic and a few rules.<br>
+The program is currently fully command-line based with 4 problem sets in sentential logic and a few rules.<br>
 Further Alpha Releases:<br>
 -More rules and problem sets will then be added<br>
 -Predicate logic will then be added with new rules and problem sets<br>
