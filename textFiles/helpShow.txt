@@ -16,6 +16,9 @@ Q->(~R). ~P->R C: ~P->~Q
 Command: Show [Premise]
 Show C (to automatically show argument conclusion)
 
+
+# Modes of Derivation #
+
 Direct Derivation
 A direct derivation command is invoked once you have the premise that you are
 intending to derive.
@@ -60,6 +63,8 @@ Command: ASS CD
 CD [Premise]
 
 
+# Foundational Logical Rules #
+
 Modus Ponens
 Modus Ponens is one of the most basic rules of logic. It is invoked when 
 one has a conditional statement and the antecedent to that statement. 
@@ -95,6 +100,79 @@ If we symbolize "The cat is black" as 'P' we get P C:~~P or ~~P C:P
 Command:DNE [Premise] where the premise has a double negation
 DNI [Premise]
 DN [Premise]
+
+Simplification
+Simplification rule states that if I have a conjunction of propositions, then I
+can derive an instantiation of either one of those propositions on their own 
+from that premise. 
+Example english argument: My cat is black and my cat has eyes. Therefore, my cat
+is black.
+Or we can say: My cat is black and my cat has eyes. Therefore, my cat has eyes.
+Symbolically it just means that if I have P^Q then I can have P and I can have 
+Q separately.
+Command: SL [Premise] - gives you the left instantiation
+SR [Premise] - gives you the right instantiation
+S [Premise] - gives you a separate instantiation of both
+
+Adjunction
+Asjunction is just the opposite of simplification. It states that if you have
+a separate instantiation of P and a separate instantiation of Q then you can have
+a premise of P^Q.
+Example english argument: My cat has eyes. My cat is black. Therefore, my cat has
+eyes and my cat is black.
+Symbolically: P. Q. C: P^Q
+Command: Adj [Premise] [Premise]
+
+Addition
+Addition allows one to turn any single premise into a disjunction (OR operator).
+This is extremely useful if say I have P and a premise PvR->Q. If I want to derive
+Q here, then I am going to need PvR so I can use addition to accomplish this by
+adding R to P. 
+Example english argument: My cat has eyes. Therefore, my cat has eyes or the sun
+is made of yellow toothpaste. (Notice that it doesn't matter what the additional
+proposition is because all you are stating is that one or the other is true.)
+Symbolically: P. C: PvR
+Command: AddL [Premise] - adds new premise to left of the operator
+AddR [Premise] - adds new premise to the right of the operator
+Add [Premise] - adds new premise to the right of the operator
+
+Modus Tollendo Ponens
+MTP allows one to use a negated premise to instantiation a non-negated premise from
+a disjunction. So take a look at the below example:
+Example english argument: My cat has eyes, or the sun is made of yellow toothpaste.
+The sun is not made of yellow toothpaste. Therefore my cat has eyes. 
+Symbolically: ~Q. PvQ C: P 
+or you can say: ~P. PvQ C: Q
+Command: MTPR [Premise] [Premise] - instantiates the rigth side of the operator
+MTPL [Premise] [Premise] - instantiates the left side of the operator
+MTP [Premise] [Premise] - generates whatever side necessarily works
+
+Biconditional-Conditional
+BC allows one to break apart a biconditional into both of its conditional parts. So
+if I have a biconditional P<->Q, it necessarily contains the conditional premises
+P->Q and Q->P, so the BC command instantiates these premises.
+Example english argument: My shoes get wet if and only if they come in contact with
+water. Therefore, my shoes get wet only if they come in contact with water.
+Symbolically: P<->Q. C: P->Q
+Command: BCL [Premise] - instantiates conditional with left premise as anticedent (P->Q)
+BCR [Premise] - instantiates conditional with left premise as anticedent (Q->P)
+BC [Premise] - instantiates both conditionals
+
+Conditional-Biconditional
+CB is just the opposite of BC. It allows for one to create a biconditional out of
+two conditional statements whose anticedents match consequents. So if I have a 
+premise P->Q and another premise Q->P, I can use CB to combine them into P<->Q.
+This will become very useful when deriving conclusion that are biconditionals.
+You simply need to show one side of the biconditional, then show the other side,
+CB them and you have a direct derivation (see above or tutorials).
+Example english argument: The sun will rise tomorrow only if the earth is spinning.
+The earth is spinning only if the sun will rise tomorrow. Therefore, the sun will
+rise tomorrow if and only if the earth is spinning.
+Symbolically: P->Q. Q->P C: P<->Q
+Command: CB [Premise] [Premise]
+
+
+# Derived Rules #
 
 Material Conditional
 The Material Conditional rule allows one to create a conditional from any 
