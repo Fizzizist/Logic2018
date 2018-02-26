@@ -376,7 +376,7 @@ namespace Logic2018
 
 		public int GetArgumentListLength(int table)
 		{
-			var query = "SELECT COUNT(*) FROM argument_display_"+table+";";
+			var query = "SELECT COUNT(*) FROM argument_constructor_"+table+";";
 			var amount = 0;
 			if (this.OpenConnection() == true)
 			{	
@@ -454,19 +454,42 @@ namespace Logic2018
 			End:;
 		} 
 
-		//Create table for save data.
-		/*public void CreateTable()
+		//For use when updating display. E.G. when problem is changed, or when 
+		//the way that the arguments are displayed is changed. Use this to make a 
+		//whole new argument_display table from an argument_constructor table.
+		public void FillArgumentDisplayTable(int num)
 		{
-			string query = "CREATE TABLE save_data (user_id VARCHAR(100), derivation INT, solved BOOL, PRIMARY KEY (user_id));";
-
+			var numberOfQueries = this.GetArgumentListLength(num);
+			var arguments = new string[numberOfQueries];
 			if (this.OpenConnection()==true)
 			{
-				MySqlCommand cmd = new MySqlCommand(query, connection);
-				cmd.ExecuteNonQuery();
-
+				for (var i=0; i<numberOfQueries;i++)
+				{
+					var query="SELECT derivation FROM argument_constructor_" + num + " where number = " + i + ";";
+					var cmd = new MySqlCommand(query,connection);
+					arguments[i] = Convert.ToString(cmd.ExecuteScalar());
+				}
 				this.CloseConnection();
 			}
-		}*/
+			var argumentsForDisplay = new string[numberOfQueries];
+			var problemConstructor = new ProblemConstructor();
+			for (var i=0;i<numberOfQueries;i++)
+			{
+				Console.WriteLine(arguments[i]);
+				var tempArgument = problemConstructor.MakeCustomArgument(arguments[i]);
+				argumentsForDisplay[i] = tempArgument.GetArgumentDisplay();
+			}
+			if (this.OpenConnection()==true)
+			{
+				for (var i=0; i<numberOfQueries;i++)
+				{
+					var query="INSERT INTO argument_display_"+num+" VALUES("+i+", N'"+argumentsForDisplay[i]+"');";
+					var cmd = new MySqlCommand(query,connection);
+					cmd.ExecuteNonQuery();
+				}
+				this.CloseConnection();
+			}
+		}
         
         }
     }

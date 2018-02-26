@@ -99,6 +99,7 @@ namespace Logic2018
                 Console.WriteLine("3. Problem Set 2 (Intro to Theorems)");
                 Console.WriteLine("4. Problem Set 3 (Final Conditional Battle)");
                 Console.WriteLine("5. Problem Set 4 (Welcome to the AND, OR and Biconditional)");
+                Console.WriteLine("6. Problem Set 5 (Practicing Makes Perfect)");
                 int mainChoice = 0;
                 var mainInput = "";
                 try
@@ -113,6 +114,12 @@ namespace Logic2018
                         stillRunning = false;
                         goto MainMenu;
                     }
+                    /*else if (mainInput == "fill-table")  //for updating argument_display tables.
+                    {
+                        Console.Write("Which table?");
+                        var tableInput = Convert.ToInt32(Console.ReadLine());
+                        saveCloud.FillArgumentDisplayTable(tableInput);
+                    }*/
                     else 
                     {
                         Console.WriteLine("That is not a valid choice. Try Again");
@@ -160,7 +167,7 @@ namespace Logic2018
                                 goto TutorialMenu;
 
                         }
-                    case 2: case 3: case 4: case 5:
+                    case 2: case 3: case 4: case 5: case 6:
                         var problemSet = new ProblemSet((mainChoice-1), userID);
                         goto MainMenu;
                     default:

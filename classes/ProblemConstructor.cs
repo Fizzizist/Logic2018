@@ -76,30 +76,39 @@ namespace Logic2018
 							unbracketed += inputString[i];
 						}
 					}
+					//For testing.
+					/*for (var i = 0; i < objectString.Count; i++)
+					{
+						Console.WriteLine(objectString[i]);
+					}*/
+					if (unbracketed=="()")
+					{
+						return this.MakeCustom(objectString[0]);
+					}
 					if (unbracketed.Contains("<->"))
 					{
-						var objectStringTemp = this.ConstructObjectString(unbracketed,objectString, "<->");
+						var objectStringTemp = this.ConstructObjectString(inputString, unbracketed,objectString, "<->");
 						objectString.Clear();
 						objectString.Add(objectStringTemp[0]);
 						objectString.Add(objectStringTemp[1]);
 					}
 					else if (unbracketed.Contains("->"))
 					{
-						var objectStringTemp = this.ConstructObjectString(unbracketed,objectString, "->");
+						var objectStringTemp = this.ConstructObjectString(inputString, unbracketed,objectString, "->");
 						objectString.Clear();
 						objectString.Add(objectStringTemp[0]);
 						objectString.Add(objectStringTemp[1]);
 					}
 					else if (unbracketed.Contains("v"))
 					{
-						var objectStringTemp = this.ConstructObjectString(unbracketed,objectString, "v");
+						var objectStringTemp = this.ConstructObjectString(inputString, unbracketed,objectString, "v");
 						objectString.Clear();
 						objectString.Add(objectStringTemp[0]);
 						objectString.Add(objectStringTemp[1]);
 					}
 					else if (unbracketed.Contains("^"))
 					{
-						var objectStringTemp = this.ConstructObjectString(unbracketed,objectString, "^");
+						var objectStringTemp = this.ConstructObjectString(inputString, unbracketed,objectString, "^");
 						objectString.Clear();
 						objectString.Add(objectStringTemp[0]);
 						objectString.Add(objectStringTemp[1]);
@@ -149,8 +158,8 @@ namespace Logic2018
 
 			
             //Testing
-			 
-			/*for (var i = 0; i < objectString.Count; i++)
+			 /*
+			for (var i = 0; i < objectString.Count; i++)
 			{
 				Console.WriteLine(objectString[i]);
 			}
@@ -280,18 +289,48 @@ namespace Logic2018
             return false;
         }
 		
-		private List<string> ConstructObjectString(string unbrack, List<string> objStr, string symbol)
+		private List<string> ConstructObjectString(string originalInput, string unbrack, List<string> objStr, string symbol)
 		{
 			var temp = unbrack.Split(symbol);
 			var objectStringTemp = new List<string>();
 			if (!temp[0].Contains("()")) objectStringTemp.Add(temp[0]);
-			else if (temp[0].Contains("~"))  objectStringTemp.Add("~("+objStr[0]+")");
-			else objectStringTemp.Add(objStr[0]);
+			else if (temp[0]=="()") objectStringTemp.Add(objStr[0]);
+			else if (temp[0]=="~()")  objectStringTemp.Add("~("+objStr[0]+")");
+			else 
+			{
+				var upToOperator = "";
+				var bracketed = 0;
+				var done = false;
+				for (var i=0;i<originalInput.Length;i++)
+				{
+					if (originalInput[i]=='(') bracketed++;
+					if (originalInput[i]==')') bracketed--;
+					if (bracketed==0&&originalInput[i]==symbol[0]) done=true;
+					if (done==false) upToOperator += originalInput[i];  
+				}
+				objectStringTemp.Add(upToOperator);
+			}
+			//Console.WriteLine(temp[1]); //Testing.
 			if (!temp[1].Contains("()")) objectStringTemp.Add(temp[1]);
-			else if (temp[0].Contains("()")&&temp[1].Contains("~")) objectStringTemp.Add("~("+objStr[1]+")");
-			else if (temp[0].Contains("()")) objectStringTemp.Add(objStr[1]);
-			else if (temp[1].Contains("~")) objectStringTemp.Add("~("+objStr[0]+")");
-			else objectStringTemp.Add(objStr[0]);
+			else 
+			{
+				var upToOperator = "";
+				var bracketed = 0;
+				var notYet = true;
+				for (var i=0;i<originalInput.Length;i++)
+				{
+					if (originalInput[i]=='(') bracketed++;
+					if (originalInput[i]==')') bracketed--;
+					if (notYet==false) upToOperator += originalInput[i];
+					if (bracketed==0&&originalInput[i]==symbol[0]) 
+					{
+						notYet=false;
+						if (symbol=="->") i++;
+						if (symbol=="<->") i += 2;
+					} 
+				}
+				objectStringTemp.Add(upToOperator);
+			}
 			return objectStringTemp;
 		}
 	}
