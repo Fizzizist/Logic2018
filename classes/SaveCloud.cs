@@ -23,7 +23,7 @@ namespace Logic2018
 		//Initialize values
 		private void Initialize()
 		{
-			server = "160.153.93.164";
+			server = "159.89.126.100";
 			database = "Logic2018";
 			uid = "logicUser";
 			password = "thisislogic2018";
