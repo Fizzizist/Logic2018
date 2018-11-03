@@ -1,3 +1,8 @@
+/*
+A Class for pulling the problem set for a specific user and displaying it.
+Author: Peter Vlasveld
+*/
+
 using System;
 using System.Collections.Generic;
 

@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+Class to hold premises of arguments.
+Premises can be nested within each other in order to construct infinitely complex arguments.
+Author: Peter Vlasveld
+*/
+
+using System;
 namespace Logic2018
 {
     public class Premise

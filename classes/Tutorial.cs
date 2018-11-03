@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+A class for introducing the user to logical derivations and to how to solve them using logic 2018.
+Author: Peter Vlasveld
+*/
+
+using System;
 using System.IO;
 using System.Collections.Generic;
 namespace Logic2018

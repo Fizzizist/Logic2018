@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+Main problem solving Class for user to actually solve the derivation.
+Show classes can be nested within one another.
+Author: Peter Vlasveld
+*/
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 namespace Logic2018
@@ -599,15 +605,19 @@ namespace Logic2018
 			}
             return premises;
         }
-
+		
+		
 		public void SetAssumeCounter(int a){
 			assumeCounter = a;
 		}
-
+		
+		//clears all current premises at users disposal
 		public void ClearInventory()
 		{
 			inventory.Clear();
 		}
+
+		//sends back that user wants to redo the problem
 		public bool GetRedo()
 		{
 			return redo;

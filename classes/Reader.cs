@@ -1,3 +1,7 @@
+/*
+A class for reading in a file.
+Author: Peter Vlasveld
+*/
 using System;
 using System.IO;
 namespace Logic2018
@@ -9,7 +13,8 @@ namespace Logic2018
         {
             
         }
-
+	
+	//Prints a file to the screen within specific line numbers.
         public void Read(int from, int to, string filepath)
         {
             sr = new StreamReader(filepath);
@@ -25,7 +30,8 @@ namespace Logic2018
                 count++;
             }
         }
-
+	
+	//Prints the whole file to the screen.
         public void ReadWholeFile(string filepath)
         {
             sr = new StreamReader(filepath);
@@ -36,6 +42,7 @@ namespace Logic2018
 			}
         }
 
+	//Adds ten lines to output for readability.
         public void AddTenBlankLines()
         {
             for (var i=0;i<10;i++)

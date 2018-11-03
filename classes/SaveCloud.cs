@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+A Class for communicating with the SQL server.
+Author: Peter Vlasveld
+*/
+
+using System;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.IO;
@@ -136,7 +141,8 @@ namespace Logic2018
 			}
 			return returnBool;
 		}
-
+		
+		//updates solved column for specific user
 		public void MakeSolvedTrue(int table, string id, int entry)
 		{
 			var query = "UPDATE savedata_"+id+"_"+table+" SET solved = true WHERE derivation = "+entry;
@@ -155,6 +161,7 @@ namespace Logic2018
 			}
 		}
 
+		//checks if a specific problem was solved
 		public bool CheckRuleSolved(int table, int derivation, string id)
 		{
 			var query = "SELECT solved FROM savedata_"+id+"_"+table+" WHERE derivation = "+derivation+";";
@@ -168,7 +175,8 @@ namespace Logic2018
 
 			return result;
 		}
-
+		
+		//gets password hash
 		public string GetHash(string input)
 		{
 			var query = "SELECT sha1('" + input + "');";
@@ -192,7 +200,8 @@ namespace Logic2018
 			}
 			return result;
 		}
-
+		
+		//creates a new user and adds to database
 		public void CreateNewUser()
 		{
 			Retry:
@@ -271,7 +280,8 @@ namespace Logic2018
 			
 			
 		}
-
+		
+		//handles user authentication
 		public bool UserAuthenticate(string user, string pass)
 		{
 			var hashpass = this.GetHash(pass);
@@ -296,6 +306,7 @@ namespace Logic2018
 				return false;
 		}
 
+		//checks to make sure user table is up to date
 		public void UserTableCheck(string id)
 		{
 			MainLoop:
@@ -374,6 +385,7 @@ namespace Logic2018
 			return false;
 		}
 
+		//gets the length of the argument table
 		public int GetArgumentListLength(int table)
 		{
 			var query = "SELECT COUNT(*) FROM argument_constructor_"+table+";";
@@ -389,6 +401,7 @@ namespace Logic2018
 			return amount;
 		}
 
+		//sends argument data out for display
 		public string[] GetArgumentDisplay(int table)
 		{
 			
@@ -411,6 +424,7 @@ namespace Logic2018
 			return result;
 		}
 
+		//gets a specific argument
 		public string GetArgumentConstructorRow(int table, int num)
 		{
 			var result = "";

@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+A Class for parsing an input string and constructing a derivation problem from it
+Author: Peter Vlasveld
+*/
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 namespace Logic2018

@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+A Class for implementing logical rules while solving derivations.
+Author: Peter Vlasveld
+*/
+
+using System;
 namespace Logic2018
 {
     public class Rules
@@ -30,7 +35,7 @@ namespace Logic2018
 
         
 
-        //Generates a new premise as the resule of performing a DNE on the input premise.
+        //Generates a new premise as the result of performing a DNE on the input premise.
         public Premise DNE(Premise a)
         {
             var newPremise = a.negated.negated;
@@ -44,7 +49,8 @@ namespace Logic2018
             var newPremiseOuter = new Premise(newPremiseInner);
             return newPremiseOuter;
         }
-
+	
+	//Generates a new premise as a result of the Addition rule.
         public Premise AddR(Premise a)
         {
             Console.Write("New Addition:");

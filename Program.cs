@@ -1,14 +1,21 @@
-﻿using System;
+﻿/*
+Main class for Logic 2018 - a program for solving logical derivations
+-Problem sets taken from Logic 2010 https://logiclx.humnet.ucla.edu/
+Author: Peter Vlasveld
+*/
+using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace Logic2018
 {
+	//main class
     class Program
     {
         
         static void Main(string[] args)
         {
+		//variables
             string userID = null;
             var stillRunning = true;
             var saveCloud = new SaveCloud();
@@ -21,7 +28,9 @@ namespace Logic2018
             problemConstructor = new ProblemConstructor();
             var testPremise = problemConstructor.MakeCustom(testingCommand);
             Console.WriteLine(testPremise.GetPremise());*/
-            if (saveCloud.CheckConnection())
+            
+		//check connection to database
+	    if (saveCloud.CheckConnection())
             {
                 
             }
@@ -34,15 +43,17 @@ namespace Logic2018
                 goto MainMenu;
             }
             
+		//user loop
             InitialLoop:
             var initialInt = 0;
 
-            
+            //user menu
             Console.WriteLine("Choose from the following options:");
             Console.WriteLine("1. New User");
             Console.WriteLine("2. Existing User");
             Console.Write("Input:");
 
+		//error checking
             try
             {
                 initialInt = Convert.ToInt32(Console.ReadLine());
@@ -53,6 +64,7 @@ namespace Logic2018
                 goto InitialLoop;
             }
 
+		//select input
             switch (initialInt)
             {
                 case 1:
@@ -90,9 +102,11 @@ namespace Logic2018
             writer.AddTenBlankLines();
             writer.ReadWholeFile("textFiles/Intro.txt");
 
+		//main menu
             MainMenu:
             while (stillRunning)
             {
+		//main menu
                 Console.WriteLine("Choose from the following menu options:");
                 Console.WriteLine("1. Tutorials");
                 Console.WriteLine("2. Problem set 1 (Working with Conditionals)");
@@ -102,7 +116,9 @@ namespace Logic2018
                 Console.WriteLine("6. Problem Set 5 (Practicing Makes Perfect)");
                 int mainChoice = 0;
                 var mainInput = "";
-                try
+                
+		//error checking
+		try
                 {
                     mainInput = Console.ReadLine();
                     mainChoice = Convert.ToInt32(mainInput);
@@ -126,6 +142,7 @@ namespace Logic2018
                         goto MainMenu;
                     }
                 }
+		//select choice
                 switch (mainChoice)
                 {
                     case 1:

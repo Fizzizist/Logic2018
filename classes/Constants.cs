@@ -1,3 +1,7 @@
+/*
+A class to hold all of the global constants used in the program
+Author: Peter Vlasveld
+*/
 using System;
 namespace Logic2018
 {

@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+Class to construct logical argument
+Author: Peter Vlasveld
+*/
+
+using System;
 using System.Collections.Generic;
 namespace Logic2018
 {
@@ -29,6 +34,7 @@ namespace Logic2018
             return _out;
         }
 
+	//Returns an argument for display to the console.
         public string GetArgumentDisplay()
         {
             var _out = "";
